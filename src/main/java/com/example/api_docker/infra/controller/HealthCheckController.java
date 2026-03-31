@@ -1,4 +1,4 @@
-package com.example.api_docker.controller;
+package com.example.api_docker.infra.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

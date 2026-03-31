@@ -1,4 +1,4 @@
-package com.example.api_docker.config;
+package com.example.api_docker.infra.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

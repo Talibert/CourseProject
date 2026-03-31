@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:16
-    container_name: postgres-db-api-default
+    container_name: postgres-db-api-course
     environment:
       POSTGRES_DB: meu_projeto
       POSTGRES_USER: usuario
