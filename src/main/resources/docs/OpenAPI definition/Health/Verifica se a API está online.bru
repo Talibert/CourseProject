@@ -1,0 +1,11 @@
+meta {
+  name: Verifica se a API está online
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/health
+  body: none
+  auth: none
+}
