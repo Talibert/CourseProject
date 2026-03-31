@@ -17,8 +17,8 @@ public record Progress(
         Map<AssessmentId, BigDecimal> grades,
         int totalLessons
 ) {
-    public static Progress zero(CourseStructure structure) {
-        return new Progress(Set.of(), Map.of(), structure.totalLessons());
+    public static Progress zero(int totalLessons) {
+        return new Progress(Set.of(), Map.of(), totalLessons);
     }
 
     public double percentage(CourseStructure structure) {

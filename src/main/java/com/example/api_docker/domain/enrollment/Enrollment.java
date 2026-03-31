@@ -1,21 +1,24 @@
 package com.example.api_docker.domain.enrollment;
 
 import com.example.api_docker.domain.certificate.CertificatePolicy;
-import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.course.CourseStructure;
 import com.example.api_docker.domain.course.LessonId;
+import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.enrollment.event.*;
 import com.example.api_docker.domain.enrollment.exception.EnrollmentCompletionNotAllowedException;
 import com.example.api_docker.domain.enrollment.exception.EnrollmentNotActiveException;
 import com.example.api_docker.domain.enrollment.exception.InvalidEnrollmentTransitionException;
 import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.student.StudentId;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// domain/enrollment/Enrollment.java
+@Getter
+@Setter
 public class Enrollment {
 
     private final EnrollmentId id;
@@ -29,19 +32,37 @@ public class Enrollment {
     private final List<DomainEvent> domainEvents = new ArrayList<>();
 
     // Construtor privado — só factories criam Enrollment
-    private Enrollment(EnrollmentId id, StudentId studentId, CourseId courseId, CourseStructure courseStructure) {
+    private Enrollment(EnrollmentId id, StudentId studentId, CourseId courseId, int totalCourseLessons) {
         this.id = id;
         this.studentId = studentId;
         this.courseId = courseId;
         this.status = EnrollmentStatusType.PENDING;
-        this.progress = Progress.zero(courseStructure);
+        this.progress = Progress.zero(totalCourseLessons);
         this.enrolledAt = LocalDateTime.now();
     }
 
+    private Enrollment(EnrollmentId id, StudentId studentId, CourseId courseId,
+                       EnrollmentStatusType status, Progress progress,
+                       LocalDateTime enrolledAt, LocalDateTime completedAt) {
+        this.id = id;
+        this.studentId = studentId;
+        this.courseId = courseId;
+        this.status = status;
+        this.progress = progress;
+        this.enrolledAt = enrolledAt;
+        this.completedAt = completedAt;
+    }
+
     public static Enrollment create(StudentId studentId, CourseId courseId, CourseStructure courseStructure) {
-        Enrollment enrollment = new Enrollment(EnrollmentId.generate(), studentId, courseId, courseStructure);
+        Enrollment enrollment = new Enrollment(EnrollmentId.generate(), studentId, courseId, courseStructure.totalLessons());
         enrollment.domainEvents.add(new EnrollmentCreatedEvent(enrollment.id, studentId, courseId));
         return enrollment;
+    }
+
+    public static Enrollment restore(EnrollmentId id, StudentId studentId, CourseId courseId,
+                                     EnrollmentStatusType status, Progress progress,
+                                     LocalDateTime enrolledAt, LocalDateTime completedAt) {
+        return new Enrollment(id, studentId, courseId, status, progress, enrolledAt, completedAt);
     }
 
     public void activate() {
