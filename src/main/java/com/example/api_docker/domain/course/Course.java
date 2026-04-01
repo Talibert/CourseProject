@@ -1,10 +1,16 @@
 package com.example.api_docker.domain.course;
 
+import com.example.api_docker.domain.course.event.CourseCreatedEvent;
+import com.example.api_docker.domain.course.event.CoursePublishedEvent;
+import com.example.api_docker.domain.course.exception.CourseAlreadyPublishedException;
+import com.example.api_docker.domain.course.exception.CoursePublishNotAllowedException;
+import com.example.api_docker.domain.course.exception.DuplicateModuleOrderException;
 import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.shared.exception.DomainException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +22,7 @@ public class Course {
     private final InstructorId instructorId;
     private final Price price;
     private final int estimatedHours;
-    private CourseStatus status;
+    private CourseStatusType status;
     private final List<Module> modules;
     private Assessment assessment;
     private LocalDateTime publishedAt;
@@ -31,7 +37,7 @@ public class Course {
         this.instructorId = instructorId;
         this.price = price;
         this.estimatedHours = estimatedHours;
-        this.status = CourseStatus.DRAFT;
+        this.status = CourseStatusType.DRAFT;
         this.modules = new ArrayList<>();
     }
 
@@ -46,7 +52,7 @@ public class Course {
 
     // Regra central — só pode publicar se tiver ao menos um módulo com uma aula
     public void publish() {
-        if (status == CourseStatus.PUBLISHED)
+        if (status == CourseStatusType.PUBLISHED)
             throw new CourseAlreadyPublishedException(id);
 
         if (modules.isEmpty())
@@ -59,7 +65,7 @@ public class Course {
         if (assessment == null)
             throw new CoursePublishNotAllowedException("O curso precisa ter uma prova final");
 
-        this.status = CourseStatus.PUBLISHED;
+        this.status = CourseStatusType.PUBLISHED;
         this.publishedAt = LocalDateTime.now();
         domainEvents.add(new CoursePublishedEvent(id));
     }
@@ -99,7 +105,7 @@ public class Course {
 
     public static Course restore(CourseId id, String title, String description,
                                  InstructorId instructorId, Price price, int estimatedHours,
-                                 CourseStatus status, List<Module> modules,
+                                 CourseStatusType status, List<Module> modules,
                                  Assessment assessment, LocalDateTime publishedAt) {
         var course = new Course(id, title, description, instructorId, price, estimatedHours);
         course.status = status;
@@ -110,7 +116,7 @@ public class Course {
     }
 
     private void ensureDraft() {
-        if (status != CourseStatus.DRAFT) {
+        if (status != CourseStatusType.DRAFT) {
             throw new CourseAlreadyPublishedException(id);
         }
     }
@@ -131,7 +137,7 @@ public class Course {
     }
 
     public CourseId getId()              { return id; }
-    public CourseStatus getStatus()      { return status; }
+    public CourseStatusType getStatus()      { return status; }
     public List<Module> getModules()     { return List.copyOf(modules); }
     public int totalLessons()            { return modules.stream().mapToInt(m -> m.lessons().size()).sum(); }
 }
