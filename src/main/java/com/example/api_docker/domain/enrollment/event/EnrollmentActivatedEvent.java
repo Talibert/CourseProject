@@ -6,7 +6,6 @@ import com.example.api_docker.domain.shared.DomainEvent;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-// domain/enrollment/event/EnrollmentActivatedEvent.java
 public record EnrollmentActivatedEvent(
         UUID eventId,
         LocalDateTime occurredAt,
