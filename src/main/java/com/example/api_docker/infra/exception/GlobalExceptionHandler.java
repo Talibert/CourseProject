@@ -1,4 +1,4 @@
-package com.example.api_docker.adapters.in.rest.exception;
+package com.example.api_docker.infra.exception;
 
 import com.example.api_docker.domain.enrollment.exception.EnrollmentNotFoundException;
 import com.example.api_docker.domain.enrollment.exception.InvalidEnrollmentTransitionException;
