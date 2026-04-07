@@ -8,12 +8,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 
-public record CourseCreatedEvent(
-        UUID eventId,
-        LocalDateTime occurredAt,
-        CourseId courseId,
-        InstructorId instructorId
-) implements DomainEvent {
+public record CourseCreatedEvent(UUID eventId, LocalDateTime occurredAt,
+                                 CourseId courseId, InstructorId instructorId) implements DomainEvent {
 
     public CourseCreatedEvent(CourseId courseId, InstructorId instructorId) {
         this(UUID.randomUUID(), LocalDateTime.now(), courseId, instructorId);

@@ -1,16 +1,21 @@
 package com.example.api_docker.domain.course;
 
 import com.example.api_docker.domain.course.exception.DuplicateLessonOrderException;
+import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-// domain/course/Module.java
 public class Module {
 
+    @Getter
     private final ModuleId id;
+    @Getter
     private final String title;
+    @Getter
     private final int order;
+
     private final List<Lesson> lessons;
 
     public Module(String title, int order) {
@@ -21,16 +26,24 @@ public class Module {
     }
 
     public void addLesson(Lesson lesson) {
-        boolean orderExists = lessons.stream()
-                .anyMatch(l -> l.order() == lesson.order());
-        if (orderExists) {
-            throw new DuplicateLessonOrderException(lesson.order());
-        }
+        boolean orderExists = lessons.stream().anyMatch(l -> l.getOrder() == lesson.getOrder());
+
+        if (orderExists)
+            throw new DuplicateLessonOrderException(lesson.getOrder());
+
         lessons.add(lesson);
     }
 
-    public ModuleId id()           { return id; }
-    public String title()          { return title; }
-    public int order()             { return order; }
-    public List<Lesson> lessons()  { return List.copyOf(lessons); }
+    public ModuleStructure toStructure() {
+        List<LessonId> lessonsIds = lessons.stream()
+                .sorted(Comparator.comparingInt(Lesson::getOrder))
+                .map(Lesson::getId)
+                .toList();
+
+        return ModuleStructure.of(this.id, this.title, lessonsIds);
+    }
+
+    public List<Lesson> getLessons(){
+        return List.copyOf(lessons);
+    }
 }

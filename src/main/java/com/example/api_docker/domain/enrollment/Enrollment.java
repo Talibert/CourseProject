@@ -31,7 +31,6 @@ public class Enrollment {
 
     private final List<DomainEvent> domainEvents = new ArrayList<>();
 
-    // Construtor privado — só factories criam Enrollment
     private Enrollment(EnrollmentId id, StudentId studentId, CourseId courseId, int totalCourseLessons) {
         this.id = id;
         this.studentId = studentId;
@@ -134,5 +133,4 @@ public class Enrollment {
 
     public boolean isActive()    { return status == EnrollmentStatusType.ACTIVE; }
     public boolean isCompleted() { return status == EnrollmentStatusType.COMPLETED; }
-    public Progress getProgress(){ return progress; }
 }

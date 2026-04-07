@@ -12,40 +12,45 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public record Progress(
-        Set<LessonId> completedLessons,
-        Map<AssessmentId, BigDecimal> grades,
-        int totalLessons
-) {
+public record Progress(Set<LessonId> completedLessons, Map<AssessmentId, BigDecimal> grades, int totalLessons) {
+
     public static Progress zero(int totalLessons) {
         return new Progress(Set.of(), Map.of(), totalLessons);
     }
 
     public double percentage(CourseStructure structure) {
-        if (totalLessons == 0) return 0.0;
+        if(totalLessons == 0)
+            return 0.0;
+
         return (completedLessons.size() * 100.0) / totalLessons;
     }
 
     public Progress withCompletedLesson(LessonId lessonId, CourseStructure structure) {
-        if (!structure.contains(lessonId)) {
+        if (!structure.contains(lessonId))
             throw new LessonNotPartOfCourseException(lessonId);
-        }
+
         var updated = new HashSet<>(completedLessons);
         updated.add(lessonId);
+
         return new Progress(Set.copyOf(updated), grades, totalLessons);
     }
 
     public Progress withGrade(AssessmentId assessmentId, BigDecimal grade) {
-        var updatedGrades = new HashMap<>(grades);
+        Map<AssessmentId, BigDecimal> updatedGrades = new HashMap<>();
+
         updatedGrades.put(assessmentId, grade);
+
         return new Progress(completedLessons, Map.copyOf(updatedGrades), totalLessons);
     }
 
     public boolean hasPassingGrade(BigDecimal minimumGrade) {
-        if (grades.isEmpty()) return false;
-        var avg = grades.values().stream()
+        if (grades.isEmpty())
+            return false;
+
+        BigDecimal avg = grades.values().stream()
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .divide(BigDecimal.valueOf(grades.size()), RoundingMode.HALF_UP);
+
         return avg.compareTo(minimumGrade) >= 0;
     }
 }

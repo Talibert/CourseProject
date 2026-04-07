@@ -70,22 +70,15 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
     private Enrollment toDomain(EnrollmentJpaEntity entity) {
         Set<LessonId> completedLessons = entity.getCompletedLessons().stream()
-                .map(LessonId::new)
-                .collect(toSet());
+                .map(LessonId::new).collect(toSet());
 
         Map<AssessmentId, BigDecimal> grades = entity.getGrades().entrySet().stream()
                 .collect(toMap(e -> new AssessmentId(e.getKey()), Map.Entry::getValue));
 
         Progress progress = new Progress(completedLessons, grades, entity.getTotalLessons());
 
-        return Enrollment.restore(
-                new EnrollmentId(entity.getId()),
-                new StudentId(entity.getStudentId()),
-                new CourseId(entity.getCourseId()),
-                entity.getStatus(),
-                progress,
-                entity.getEnrolledAt(),
-                entity.getCompletedAt()
-        );
+        return Enrollment.restore(new EnrollmentId(entity.getId()), new StudentId(entity.getStudentId()),
+                new CourseId(entity.getCourseId()), entity.getStatus(), progress, entity.getEnrolledAt(),
+                entity.getCompletedAt());
     }
 }

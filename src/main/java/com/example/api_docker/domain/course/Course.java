@@ -7,6 +7,7 @@ import com.example.api_docker.domain.course.exception.CoursePublishNotAllowedExc
 import com.example.api_docker.domain.course.exception.DuplicateModuleOrderException;
 import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.shared.exception.DomainException;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,13 +17,15 @@ import java.util.Objects;
 
 public class Course {
 
+    @Getter
     private final CourseId id;
+    @Getter
+    private CourseStatusType status;
     private final String title;
     private final String description;
     private final InstructorId instructorId;
     private final Price price;
     private final int estimatedHours;
-    private CourseStatusType status;
     private final List<Module> modules;
     private Assessment assessment;
     private LocalDateTime publishedAt;
@@ -58,7 +61,7 @@ public class Course {
         if (modules.isEmpty())
             throw new CoursePublishNotAllowedException("O curso precisa ter ao menos um módulo");
 
-        boolean hasAnyLesson = modules.stream().anyMatch(m -> !m.lessons().isEmpty());
+        boolean hasAnyLesson = modules.stream().anyMatch(m -> !m.getLessons().isEmpty());
         if (!hasAnyLesson)
             throw new CoursePublishNotAllowedException("O curso precisa ter ao menos uma aula");
 
@@ -73,33 +76,29 @@ public class Course {
     // Só pode adicionar módulos/aulas em DRAFT
     public void addModule(Module module) {
         ensureDraft();
-        boolean orderExists = modules.stream()
-                .anyMatch(m -> m.order() == module.order());
-        if (orderExists) {
-            throw new DuplicateModuleOrderException(module.order());
-        }
+
+        boolean orderExists = modules.stream().anyMatch(m -> m.getOrder() == module.getOrder());
+
+        if(orderExists)
+            throw new DuplicateModuleOrderException(module.getOrder());
+
         modules.add(module);
     }
 
     public void defineAssessment(Assessment assessment) {
         ensureDraft();
+
         Objects.requireNonNull(assessment, "Assessment não pode ser nulo");
+
         this.assessment = assessment;
     }
 
-    // Gera o snapshot estrutural usado pelo Enrollment
     public CourseStructure toStructure() {
         var moduleStructures = modules.stream()
-                .sorted(Comparator.comparingInt(Module::order))
-                .map(m -> new ModuleStructure(
-                        m.id(),
-                        m.title(),
-                        m.lessons().stream()
-                                .sorted(Comparator.comparingInt(Lesson::order))
-                                .map(Lesson::id)
-                                .toList()
-                ))
+                .sorted(Comparator.comparingInt(Module::getOrder))
+                .map(Module::toStructure)
                 .toList();
+
         return CourseStructure.of(this.id, moduleStructures);
     }
 
@@ -116,18 +115,16 @@ public class Course {
     }
 
     private void ensureDraft() {
-        if (status != CourseStatusType.DRAFT) {
+        if (status != CourseStatusType.DRAFT)
             throw new CourseAlreadyPublishedException(id);
-        }
     }
 
     private static void validate(String title, int estimatedHours) {
-        if (title == null || title.isBlank()) {
+        if (title == null || title.isBlank())
             throw new DomainException("Título do curso não pode ser vazio");
-        }
-        if (estimatedHours <= 0) {
+
+        if (estimatedHours <= 0)
             throw new DomainException("Carga horária deve ser maior que zero");
-        }
     }
 
     public List<DomainEvent> pullDomainEvents() {
@@ -136,8 +133,11 @@ public class Course {
         return events;
     }
 
-    public CourseId getId()              { return id; }
-    public CourseStatusType getStatus()      { return status; }
-    public List<Module> getModules()     { return List.copyOf(modules); }
-    public int totalLessons()            { return modules.stream().mapToInt(m -> m.lessons().size()).sum(); }
+    public List<Module> getModules(){
+        return List.copyOf(modules);
+    }
+
+    public int getTotalLessons(){
+        return modules.stream().mapToInt(m -> m.getLessons().size()).sum();
+    }
 }
