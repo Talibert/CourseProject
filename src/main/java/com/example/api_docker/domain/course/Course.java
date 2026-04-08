@@ -44,13 +44,40 @@ public class Course {
         this.modules = new ArrayList<>();
     }
 
+    private Course(CourseId id, String title, String description,
+                   InstructorId instructorId, Price price, int estimatedHours,
+                   CourseStatusType status, List<Module> modules, Assessment assessment,
+                   LocalDateTime publishedAt) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.instructorId = instructorId;
+        this.price = price;
+        this.estimatedHours = estimatedHours;
+        this.status = status;
+        this.modules = modules;
+        this.assessment = assessment;
+        this.publishedAt = publishedAt;
+    }
+
     public static Course create(String title, String description,
                                 InstructorId instructorId, Price price, int estimatedHours) {
         validate(title, estimatedHours);
-        var course = new Course(CourseId.generate(), title, description,
+
+        Course course = new Course(CourseId.generate(), title, description,
                 instructorId, price, estimatedHours);
+
         course.domainEvents.add(new CourseCreatedEvent(course.id, instructorId));
+
         return course;
+    }
+
+    public static Course restore(CourseId id, String title, String description,
+                                 InstructorId instructorId, Price price, int estimatedHours,
+                                 CourseStatusType status, List<Module> modules,
+                                 Assessment assessment, LocalDateTime publishedAt) {
+        return new Course(id, title, description, instructorId, price, estimatedHours,
+                status, modules, assessment, publishedAt);
     }
 
     // Regra central — só pode publicar se tiver ao menos um módulo com uma aula
@@ -61,8 +88,7 @@ public class Course {
         if (modules.isEmpty())
             throw new CoursePublishNotAllowedException("O curso precisa ter ao menos um módulo");
 
-        boolean hasAnyLesson = modules.stream().anyMatch(m -> !m.getLessons().isEmpty());
-        if (!hasAnyLesson)
+        if (!modules.stream().anyMatch(m -> !m.getLessons().isEmpty()))
             throw new CoursePublishNotAllowedException("O curso precisa ter ao menos uma aula");
 
         if (assessment == null)
@@ -94,24 +120,12 @@ public class Course {
     }
 
     public CourseStructure toStructure() {
-        var moduleStructures = modules.stream()
+        List<ModuleStructure> moduleStructures = modules.stream()
                 .sorted(Comparator.comparingInt(Module::getOrder))
                 .map(Module::toStructure)
                 .toList();
 
         return CourseStructure.of(this.id, moduleStructures);
-    }
-
-    public static Course restore(CourseId id, String title, String description,
-                                 InstructorId instructorId, Price price, int estimatedHours,
-                                 CourseStatusType status, List<Module> modules,
-                                 Assessment assessment, LocalDateTime publishedAt) {
-        var course = new Course(id, title, description, instructorId, price, estimatedHours);
-        course.status = status;
-        course.modules.addAll(modules);
-        course.assessment = assessment;
-        course.publishedAt = publishedAt;
-        return course;
     }
 
     private void ensureDraft() {
@@ -128,7 +142,7 @@ public class Course {
     }
 
     public List<DomainEvent> pullDomainEvents() {
-        var events = List.copyOf(domainEvents);
+        List<DomainEvent> events = List.copyOf(domainEvents);
         domainEvents.clear();
         return events;
     }

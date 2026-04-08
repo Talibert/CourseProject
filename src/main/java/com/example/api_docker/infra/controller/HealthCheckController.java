@@ -15,7 +15,7 @@ public class HealthCheckController {
     @Operation(summary = "Verifica se a API está online", description = "Retorna o status atual da aplicação e do ambiente Docker")
     @GetMapping("/health")
     public ResponseEntity<HealthResponse> health() {
-        var response = new HealthResponse(
+        HealthResponse response = new HealthResponse(
                 "UP",
                 "Aplicação rodando com Java 21 e Docker"
         );

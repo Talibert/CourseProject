@@ -43,7 +43,7 @@ public class CourseStructure {
 
     // Qual o índice sequencial de uma aula — usado para desbloquear a próxima
     public Optional<LessonId> nextLesson(LessonId current) {
-        var allLessons = modules.stream()
+        List<LessonId> allLessons = modules.stream()
                 .flatMap(m -> m.getLessons().stream())
                 .toList();
 

@@ -27,7 +27,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
     @Override
     public void save(Enrollment enrollment) {
-        var jpaEntity = toJpaEntity(enrollment);
+        EnrollmentJpaEntity jpaEntity = toJpaEntity(enrollment);
         jpaRepository.save(jpaEntity);
     }
 

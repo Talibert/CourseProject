@@ -29,7 +29,7 @@ public record Progress(Set<LessonId> completedLessons, Map<AssessmentId, BigDeci
         if (!structure.contains(lessonId))
             throw new LessonNotPartOfCourseException(lessonId);
 
-        var updated = new HashSet<>(completedLessons);
+        Set<LessonId> updated = new HashSet<>(completedLessons);
         updated.add(lessonId);
 
         return new Progress(Set.copyOf(updated), grades, totalLessons);
