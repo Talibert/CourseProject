@@ -1,0 +1,34 @@
+package com.example.api_docker.application.certificate;
+
+import com.example.api_docker.application.certificate.command.IssueCertificateCommand;
+import com.example.api_docker.domain.certificate.Certificate;
+import com.example.api_docker.domain.certificate.CertificateRepository;
+import com.example.api_docker.domain.certificate.VerificationCodeGenerator;
+import com.example.api_docker.domain.shared.DomainEventPublisher;
+
+public class IssueCertificateUseCase {
+
+    private final CertificateRepository certificateRepository;
+    private final VerificationCodeGenerator verificationCodeGenerator;
+    private final DomainEventPublisher domainEventPublisher;
+
+    public IssueCertificateUseCase(CertificateRepository certificateRepository,
+                                   VerificationCodeGenerator verificationCodeGenerator,
+                                   DomainEventPublisher domainEventPublisher) {
+        this.certificateRepository = certificateRepository;
+        this.verificationCodeGenerator = verificationCodeGenerator;
+        this.domainEventPublisher = domainEventPublisher;
+    }
+
+    public void execute(IssueCertificateCommand command) {
+        var certificate = Certificate.issue(
+                command.enrollmentId(),
+                command.studentId(),
+                command.courseId(),
+                verificationCodeGenerator
+        );
+
+        certificateRepository.save(certificate);
+        certificate.pullDomainEvents().forEach(domainEventPublisher::publish);
+    }
+}

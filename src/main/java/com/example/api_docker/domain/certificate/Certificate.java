@@ -47,13 +47,14 @@ public class Certificate {
     }
 
     public static Certificate issue(EnrollmentId enrollmentId,
-                                    StudentId studentId, CourseId courseId) {
+                                    StudentId studentId, CourseId courseId,
+                                    VerificationCodeGenerator verificationCodeGenerator) {
         Certificate certificate = new Certificate(
                 CertificateId.generate(),
                 enrollmentId,
                 studentId,
                 courseId,
-                generateVerificationCode()
+                verificationCodeGenerator.generate()
         );
 
         certificate.domainEvents.add(new CertificateIssuedEvent(certificate.id, studentId, courseId));
@@ -66,10 +67,6 @@ public class Certificate {
                                       String verificationCode, LocalDateTime issuedAt) {
         return new Certificate(id, enrollmentId, studentId,
                 courseId, verificationCode, LocalDateTime.now());
-    }
-
-    private static String generateVerificationCode() {
-        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
 
     public List<DomainEvent> pullDomainEvents() {

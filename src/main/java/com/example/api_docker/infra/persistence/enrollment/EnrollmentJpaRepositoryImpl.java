@@ -2,13 +2,13 @@ package com.example.api_docker.infra.persistence.enrollment;
 
 import com.example.api_docker.domain.course.AssessmentId;
 import com.example.api_docker.domain.course.CourseId;
-import com.example.api_docker.domain.course.Lesson;
 import com.example.api_docker.domain.course.LessonId;
 import com.example.api_docker.domain.enrollment.Enrollment;
 import com.example.api_docker.domain.enrollment.EnrollmentId;
 import com.example.api_docker.domain.enrollment.EnrollmentRepository;
 import com.example.api_docker.domain.enrollment.Progress;
 import com.example.api_docker.domain.student.StudentId;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -18,10 +18,11 @@ import java.util.Set;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
-public class EnrollmentRepositoryImpl implements EnrollmentRepository {
+@Component
+public class EnrollmentJpaRepositoryImpl implements EnrollmentRepository {
     private final EnrollmentJpaRepository jpaRepository;
 
-    public EnrollmentRepositoryImpl(EnrollmentJpaRepository jpaRepository) {
+    public EnrollmentJpaRepositoryImpl(EnrollmentJpaRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
     }
 

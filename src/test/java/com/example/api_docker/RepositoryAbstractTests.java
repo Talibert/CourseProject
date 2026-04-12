@@ -1,13 +1,9 @@
 package com.example.api_docker;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-class ApplicationTests extends RepositoryAbstractTests {
-
-	@Test
-	void contextLoads() {
-	}
+@TestPropertySource(locations = "classpath:application-test-repository.properties")
+public abstract class RepositoryAbstractTests {
 }
