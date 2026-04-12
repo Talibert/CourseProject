@@ -4,6 +4,7 @@ import com.example.api_docker.application.certificate.IssueCertificateUseCase;
 import com.example.api_docker.domain.certificate.CertificateRepository;
 import com.example.api_docker.domain.certificate.VerificationCodeGenerator;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,15 +16,19 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfig {
 
 
+    /**
+     * Quando o kafka estiver desabilitado via properties, injetamos um bean nulo.
+     * @return
+     */
     @Bean
-    public IssueCertificateUseCase issueCertificateUseCase(
-            CertificateRepository certificateRepository,
-            VerificationCodeGenerator verificationCodeGenerator,
-            DomainEventPublisher eventPublisher) {
-        return new IssueCertificateUseCase(
-                certificateRepository,
-                verificationCodeGenerator,
-                eventPublisher
-        );
+    @ConditionalOnMissingBean(DomainEventPublisher.class)
+    public DomainEventPublisher noOpDomainEventPublisher() {
+        return event -> {};
+    }
+
+    @Bean
+    public IssueCertificateUseCase issueCertificateUseCase(CertificateRepository certificateRepository,
+            VerificationCodeGenerator verificationCodeGenerator, DomainEventPublisher eventPublisher) {
+        return new IssueCertificateUseCase(certificateRepository, verificationCodeGenerator, eventPublisher);
     }
 }

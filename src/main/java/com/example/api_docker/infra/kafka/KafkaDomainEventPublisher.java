@@ -8,10 +8,12 @@ import com.example.api_docker.domain.enrollment.event.EnrollmentCreatedEvent;
 import com.example.api_docker.domain.enrollment.event.EnrollmentSuspendedEvent;
 import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(name = "spring.kafka.bootstrap-servers") // Só cria o bean se o kafka estiver habilitado nas properties
 public class KafkaDomainEventPublisher implements DomainEventPublisher {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;

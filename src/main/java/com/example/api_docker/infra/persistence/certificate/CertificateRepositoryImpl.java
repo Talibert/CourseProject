@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class CertificateJpaRepositoryImpl implements CertificateRepository {
+public class CertificateRepositoryImpl implements CertificateRepository {
 
     private final CertificateJpaRepository jpaRepository;
 
-    public CertificateJpaRepositoryImpl(CertificateJpaRepository jpaRepository) {
+    public CertificateRepositoryImpl(CertificateJpaRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
     }
 

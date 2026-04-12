@@ -19,10 +19,10 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 @Component
-public class EnrollmentJpaRepositoryImpl implements EnrollmentRepository {
+public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     private final EnrollmentJpaRepository jpaRepository;
 
-    public EnrollmentJpaRepositoryImpl(EnrollmentJpaRepository jpaRepository) {
+    public EnrollmentRepositoryImpl(EnrollmentJpaRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
     }
 
