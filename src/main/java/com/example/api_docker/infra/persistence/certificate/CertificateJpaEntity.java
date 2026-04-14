@@ -18,7 +18,7 @@ import java.util.UUID;
 public class CertificateJpaEntity {
 
     @Id
-    @Column(columnDefinition = "uuid")
+    @Column(name = "certificate_id", columnDefinition = "uuid")
     private UUID id;
 
     @Column(name = "enrollment_id", nullable = false, columnDefinition = "uuid")

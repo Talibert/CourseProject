@@ -19,7 +19,7 @@ import java.util.UUID;
 public class EnrollmentJpaEntity {
 
     @Id
-    @Column(columnDefinition = "uuid")
+    @Column(name = "enrollment_id", columnDefinition = "uuid")
     private UUID id;
 
     @Column(name = "student_id", nullable = false, columnDefinition = "uuid")
@@ -33,16 +33,14 @@ public class EnrollmentJpaEntity {
     private EnrollmentStatusType status;
 
     @ElementCollection
-    @CollectionTable(name = "enrollment_completed_lessons",
-            joinColumns = @JoinColumn(name = "enrollment_id"))
+    @CollectionTable(name = "enrollment_completed_lessons", joinColumns = @JoinColumn(name = "enrollment_id"))
     @Column(name = "lesson_id", columnDefinition = "uuid")
     private Set<UUID> completedLessons;
 
     @ElementCollection
-    @CollectionTable(name = "enrollment_grades",
-            joinColumns = @JoinColumn(name = "enrollment_id"))
-    @MapKeyColumn(name = "assessment_id")
-    @Column(name = "grade")
+    @CollectionTable(name = "enrollment_grades", joinColumns = @JoinColumn(name = "enrollment_id"))
+    @MapKeyColumn(name = "assessment_id", columnDefinition = "uuid")
+    @Column(name = "grade", precision = 5, scale = 2)
     private Map<UUID, BigDecimal> grades;
 
     @Column(name = "total_lessons", nullable = false)
