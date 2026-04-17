@@ -1,6 +1,6 @@
 package com.example.api_docker.infra.config;
 
-import com.example.api_docker.application.certificate.IssueCertificateUseCase;
+import com.example.api_docker.application.certificate.usecase.IssueCertificateUseCase;
 import com.example.api_docker.domain.certificate.CertificateRepository;
 import com.example.api_docker.domain.certificate.VerificationCodeGenerator;
 import com.example.api_docker.domain.shared.DomainEventPublisher;

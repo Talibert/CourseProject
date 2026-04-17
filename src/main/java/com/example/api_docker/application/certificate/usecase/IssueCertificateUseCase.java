@@ -1,4 +1,4 @@
-package com.example.api_docker.application.certificate;
+package com.example.api_docker.application.certificate.usecase;
 
 import com.example.api_docker.application.certificate.command.IssueCertificateCommand;
 import com.example.api_docker.domain.certificate.Certificate;
@@ -21,7 +21,7 @@ public class IssueCertificateUseCase {
     }
 
     public void execute(IssueCertificateCommand command) {
-        var certificate = Certificate.issue(
+        Certificate certificate = Certificate.issue(
                 command.enrollmentId(),
                 command.studentId(),
                 command.courseId(),

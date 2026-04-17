@@ -1,6 +1,6 @@
 package com.example.api_docker.infra.kafka.enrollment;
 
-import com.example.api_docker.application.certificate.IssueCertificateUseCase;
+import com.example.api_docker.application.certificate.usecase.IssueCertificateUseCase;
 import com.example.api_docker.application.certificate.command.IssueCertificateCommand;
 import com.example.api_docker.domain.enrollment.event.EnrollmentCompletedEvent;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -17,7 +17,7 @@ public class EnrollmentCompletedConsumer {
 
     @KafkaListener(topics = "enrollment.completed")
     public void handle(EnrollmentCompletedEvent event) {
-        var command = new IssueCertificateCommand(
+        IssueCertificateCommand command = new IssueCertificateCommand(
                 event.enrollmentId(),
                 event.studentId(),
                 event.courseId()
