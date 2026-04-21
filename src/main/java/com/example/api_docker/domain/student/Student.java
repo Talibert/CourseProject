@@ -1,10 +1,9 @@
 package com.example.api_docker.domain.student;
 
 import com.example.api_docker.domain.shared.DomainEvent;
-import com.example.api_docker.domain.student.event.StudentBannedEvent;
-import com.example.api_docker.domain.student.event.StudentReactivatedEvent;
-import com.example.api_docker.domain.student.event.StudentRegisteredEvent;
-import com.example.api_docker.domain.student.event.StudentSuspendedEvent;
+import com.example.api_docker.domain.shared.exception.DomainException;
+import com.example.api_docker.domain.student.event.*;
+import com.example.api_docker.domain.student.exception.InvalidStudentTransitionException;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -25,7 +24,7 @@ public class Student {
     @Getter
     private final LocalDate birthDate;
     @Getter
-    private final String passwordHash;
+    private String passwordHash;
     @Getter
     private StudentStatus status;
     @Getter
@@ -96,6 +95,14 @@ public class Student {
 
         this.status = StudentStatus.ACTIVE;
         domainEvents.add(new StudentReactivatedEvent(id));
+    }
+
+    public void changePassword(String newPasswordHash) {
+        if (newPasswordHash == null || newPasswordHash.isBlank()) {
+            throw new DomainException("Hash da senha não pode ser vazio");
+        }
+        this.passwordHash = newPasswordHash;
+        domainEvents.add(new StudentPasswordChangedEvent(id));
     }
 
     public boolean isActive() { return status == StudentStatus.ACTIVE; }
