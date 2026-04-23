@@ -1,6 +1,7 @@
 package com.example.api_docker.application.student.usecase;
 
 import com.example.api_docker.application.student.command.ChangePasswordCommand;
+import com.example.api_docker.domain.shared.DomainEventPublisher;
 import com.example.api_docker.domain.student.PasswordEncoder;
 import com.example.api_docker.domain.student.Student;
 import com.example.api_docker.domain.student.StudentRepository;
@@ -14,6 +15,7 @@ public class ChangePasswordUseCase {
 
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DomainEventPublisher eventPublisher;
 
     public void execute(ChangePasswordCommand command) {
         Student student = studentRepository.findById(command.studentId())
@@ -29,5 +31,7 @@ public class ChangePasswordUseCase {
 
         student.changePassword(newPasswordHash);
         studentRepository.save(student);
+
+        student.pullDomainEvents().forEach(eventPublisher::publish);
     }
 }

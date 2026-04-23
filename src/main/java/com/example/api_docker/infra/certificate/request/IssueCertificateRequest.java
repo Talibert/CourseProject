@@ -1,4 +1,4 @@
-package com.example.api_docker.infra.controller.request;
+package com.example.api_docker.infra.certificate.request;
 
 import java.util.UUID;
 
