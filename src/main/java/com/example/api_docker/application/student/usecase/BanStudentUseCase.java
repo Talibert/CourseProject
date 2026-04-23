@@ -1,6 +1,7 @@
 package com.example.api_docker.application.student.usecase;
 
 import com.example.api_docker.application.student.command.BanStudentCommand;
+import com.example.api_docker.domain.enrollment.CancellationReason;
 import com.example.api_docker.domain.enrollment.EnrollmentRepository;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
 import com.example.api_docker.domain.student.StudentRepository;

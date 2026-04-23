@@ -17,10 +17,10 @@ import java.util.Date;
 @Component
 public class JwtTokenGenerator implements TokenGenerator {
 
-    private final String secret;
+    private final JwtSecretKey jwtSecretKey;
 
-    public JwtTokenGenerator(@Value("${jwt.secret}") String secret) {
-        this.secret = secret;
+    public JwtTokenGenerator(JwtSecretKey jwtSecretKey) {
+        this.jwtSecretKey = jwtSecretKey;
     }
 
     @Override
@@ -29,12 +29,7 @@ public class JwtTokenGenerator implements TokenGenerator {
                 .subject(studentId.value().toString())
                 .claim("email", email.value())
                 .expiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
-                .signWith(secretKey())
+                .signWith(jwtSecretKey.get())
                 .compact();
-    }
-
-    private SecretKey secretKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

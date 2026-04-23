@@ -1,4 +1,9 @@
 package com.example.api_docker.application.student.result;
 
-public class LoginResult {
-}
+import java.util.UUID;
+
+public record LoginResult(
+        String token,
+        UUID studentId,
+        String fullName
+) {}

@@ -11,6 +11,7 @@ import com.example.api_docker.domain.student.StudentId;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -39,9 +40,9 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     }
 
     @Override
-    public Optional<Enrollment> findActiveByStudentAndCourse(StudentId studentId, CourseId courseId) {
+    public List<Enrollment> findActiveByStudent(StudentId studentId) {
         // TODO implementar
-        return Optional.empty();
+        return List.of();
     }
 
     private EnrollmentJpaEntity toJpaEntity(Enrollment enrollment) {
