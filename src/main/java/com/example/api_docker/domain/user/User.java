@@ -4,11 +4,13 @@ import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.shared.exception.DomainException;
 import com.example.api_docker.domain.student.Email;
 import com.example.api_docker.domain.student.FullName;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public abstract class User {
 
     private final UserId id;
@@ -48,10 +50,4 @@ public abstract class User {
     protected void addDomainEvent(DomainEvent event) {
         domainEvents.add(event);
     }
-
-    public UserId getId()            { return id; }
-    public FullName getName()        { return name; }
-    public Email getEmail()          { return email; }
-    public String getPasswordHash()  { return passwordHash; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
 }

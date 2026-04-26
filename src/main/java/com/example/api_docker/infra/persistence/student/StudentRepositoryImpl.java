@@ -1,6 +1,7 @@
 package com.example.api_docker.infra.persistence.student;
 
 import com.example.api_docker.domain.student.*;
+import com.example.api_docker.domain.user.UserId;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -55,7 +56,7 @@ public class StudentRepositoryImpl implements StudentRepository {
 
     private Student toDomain(StudentJpaEntity entity) {
         return Student.restore(
-                new StudentId(entity.getId()),
+                new UserId(entity.getId()),
                 new FullName(entity.getFirstName(), entity.getLastName()),
                 new Email(entity.getEmail()),
                 new Cpf(entity.getCpf()),

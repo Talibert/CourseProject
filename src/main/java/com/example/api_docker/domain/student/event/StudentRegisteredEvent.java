@@ -2,14 +2,14 @@ package com.example.api_docker.domain.student.event;
 
 import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.student.Email;
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record StudentRegisteredEvent(UUID eventId, LocalDateTime occurredAt, StudentId studentId, Email email) implements DomainEvent {
+public record StudentRegisteredEvent(UUID eventId, LocalDateTime occurredAt, UserId userId, Email email) implements DomainEvent {
 
-    public StudentRegisteredEvent(StudentId studentId, Email email){
-        this(UUID.randomUUID(), LocalDateTime.now(), studentId, email);
+    public StudentRegisteredEvent(UserId userId, Email email){
+        this(UUID.randomUUID(), LocalDateTime.now(), userId, email);
     }
 }
