@@ -40,9 +40,17 @@ public class GlobalExceptionHandler {
                 .body(ErrorResponse.of("INVALID_CREDENTIALS", ex.getMessage()));
     }
 
-    // Email ou CPF já em uso → 409
-    @ExceptionHandler({EmailAlreadyInUseException.class, CpfAlreadyInUseException.class})
-    public ResponseEntity<ErrorResponse> handleConflict(DomainException ex) {
+    @ExceptionHandler(EmailAlreadyInUseException.class)
+    public ResponseEntity<ErrorResponse> handleEmailAlreadyInUse(
+            EmailAlreadyInUseException ex) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(ErrorResponse.of("CONFLICT", ex.getMessage()));
+    }
+
+    @ExceptionHandler(CpfAlreadyInUseException.class)
+    public ResponseEntity<ErrorResponse> handleCpfAlreadyInUse(
+            CpfAlreadyInUseException ex) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(ErrorResponse.of("CONFLICT", ex.getMessage()));
