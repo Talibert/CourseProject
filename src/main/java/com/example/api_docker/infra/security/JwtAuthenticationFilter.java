@@ -1,6 +1,8 @@
 package com.example.api_docker.infra.security;
 
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
+import com.example.api_docker.domain.user.UserRole;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,7 +19,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Primeiro passo cadeia -> intercepta a requisição
+ * <li>
+ *     <ul>Intercepta a requisição</ul>
+ *     <ul>Extrai a role do token usando o validator</ul>
+ * </li>
  */
 @Component
 @AllArgsConstructor
@@ -33,17 +39,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
             try {
-                StudentId studentId = tokenValidator.validate(token);
-                // Coloca no contexto do Spring Security
+                Claims claims = tokenValidator.validate(token);
+                UserId userId = tokenValidator.extractUserId(claims);
+                UserRole role = tokenValidator.extractRole(claims);
+
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        studentId, null, List.of()
+                        userId, null,
+                        List.of(new SimpleGrantedAuthority(role.toSecurityRole()))
                 );
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (JwtException e) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                SecurityContextHolder.clearContext();
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
         }
+
         chain.doFilter(request, response);
     }
 }

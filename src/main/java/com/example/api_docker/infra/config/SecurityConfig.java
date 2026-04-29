@@ -36,16 +36,18 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
-                        // ← retorna 401 quando não autenticado
+                        // Retorna 401 quando não autenticado
                         .authenticationEntryPoint((request, response, authException) ->
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                        // ← retorna 403 quando autenticado mas sem permissão
+                        // Retorna 403 quando autenticado mas sem permissão
                         .accessDeniedHandler((request, response, accessDeniedException) ->
                                 response.sendError(HttpServletResponse.SC_FORBIDDEN))
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/students/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/students/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/admin/login").permitAll()
+                        .requestMatchers("/courses/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

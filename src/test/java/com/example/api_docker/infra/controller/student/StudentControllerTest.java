@@ -11,6 +11,8 @@ import com.example.api_docker.domain.student.StudentId;
 import com.example.api_docker.domain.student.StudentStatus;
 import com.example.api_docker.domain.student.exception.EmailAlreadyInUseException;
 import com.example.api_docker.domain.student.exception.InvalidCredentialsException;
+import com.example.api_docker.domain.user.UserId;
+import com.example.api_docker.domain.user.UserRole;
 import com.example.api_docker.infra.controller.student.request.LoginRequest;
 import com.example.api_docker.infra.controller.student.request.RegisterStudentRequest;
 import org.junit.jupiter.api.Test;
@@ -133,11 +135,11 @@ class StudentControllerTest extends ControllerAbstractTests {
 
     @Test
     void shouldReturn200WhenGettingMeWithValidToken() throws Exception {
-        StudentId studentId = new StudentId(UUID.randomUUID());
-        String token = jwtTokenGenerator.generate(studentId, new Email("joao@email.com"));
+        UserId userId = new UserId(UUID.randomUUID());
+        String token = jwtTokenGenerator.generate(userId, new Email("joao@email.com"), UserRole.STUDENT);
 
         StudentResult studentResult = new StudentResult(
-                studentId.value(), "João Silva",
+                userId.value(), "João Silva",
                 "joao@email.com", StudentStatus.ACTIVE, LocalDateTime.now()
         );
 
@@ -160,17 +162,17 @@ class StudentControllerTest extends ControllerAbstractTests {
 
     @Test
     void shouldReturn200WhenGettingStudentById() throws Exception {
-        StudentId studentId = new StudentId(UUID.randomUUID());
-        String token = jwtTokenGenerator.generate(studentId, new Email("joao@email.com"));
+        UserId userId = new UserId(UUID.randomUUID());
+        String token = jwtTokenGenerator.generate(userId, new Email("joao@email.com"), UserRole.STUDENT);
 
         StudentResult studentResult = new StudentResult(
-                studentId.value(), "João Silva",
+                userId.value(), "João Silva",
                 "joao@email.com", StudentStatus.ACTIVE, LocalDateTime.now()
         );
 
         when(getStudentUseCase.execute(any())).thenReturn(studentResult);
 
-        mockMvc.perform(get("/students/{id}", studentId.value())
+        mockMvc.perform(get("/students/{id}", userId.value())
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.fullName").value("João Silva"));
