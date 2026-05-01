@@ -8,7 +8,7 @@ import com.example.api_docker.application.student.result.StudentResult;
 import com.example.api_docker.application.student.usecase.GetStudentUseCase;
 import com.example.api_docker.application.student.usecase.LoginStudentUseCase;
 import com.example.api_docker.application.student.usecase.RegisterStudentUseCase;
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 import com.example.api_docker.infra.controller.student.request.LoginRequest;
 import com.example.api_docker.infra.controller.student.request.RegisterStudentRequest;
 import jakarta.validation.Valid;
@@ -57,14 +57,14 @@ public class StudentController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<StudentResult> me(@AuthenticationPrincipal StudentId studentId) {
-        var result = getStudentUseCase.execute(new GetStudentQuery(studentId));
+    public ResponseEntity<StudentResult> me(@AuthenticationPrincipal UserId userId) {
+        var result = getStudentUseCase.execute(new GetStudentQuery(userId));
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<StudentResult> findById(@PathVariable UUID id) {
-        var result = getStudentUseCase.execute(new GetStudentQuery(new StudentId(id)));
+        var result = getStudentUseCase.execute(new GetStudentQuery(new UserId(id)));
         return ResponseEntity.ok(result);
     }
 }

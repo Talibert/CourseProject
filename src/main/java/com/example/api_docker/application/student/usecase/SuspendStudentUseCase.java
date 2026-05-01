@@ -13,8 +13,8 @@ public class SuspendStudentUseCase {
     private final DomainEventPublisher eventPublisher;
 
     public void execute(SuspendStudentCommand command) {
-        var student = studentRepository.findById(command.studentId())
-                .orElseThrow(() -> new StudentNotFoundException(command.studentId()));
+        var student = studentRepository.findById(command.userId())
+                .orElseThrow(() -> new StudentNotFoundException(command.userId()));
 
         student.suspend();
 

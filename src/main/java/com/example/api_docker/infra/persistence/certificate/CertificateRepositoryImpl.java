@@ -5,7 +5,7 @@ import com.example.api_docker.domain.certificate.CertificateId;
 import com.example.api_docker.domain.certificate.CertificateRepository;
 import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.enrollment.EnrollmentId;
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -33,7 +33,7 @@ public class CertificateRepositoryImpl implements CertificateRepository {
         var entity = new CertificateJpaEntity();
         entity.setId(certificate.getId().value());
         entity.setEnrollmentId(certificate.getEnrollmentId().value());
-        entity.setStudentId(certificate.getStudentId().value());
+        entity.setUserId(certificate.getUserId().value());
         entity.setCourseId(certificate.getCourseId().value());
         entity.setVerificationCode(certificate.getVerificationCode());
         entity.setIssuedAt(certificate.getIssuedAt());
@@ -44,7 +44,7 @@ public class CertificateRepositoryImpl implements CertificateRepository {
         return Certificate.restore(
                 new CertificateId(entity.getId()),
                 new EnrollmentId(entity.getEnrollmentId()),
-                new StudentId(entity.getStudentId()),
+                new UserId(entity.getUserId()),
                 new CourseId(entity.getCourseId()),
                 entity.getVerificationCode(),
                 entity.getIssuedAt()

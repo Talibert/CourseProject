@@ -17,7 +17,7 @@ public class IssueCertificateUseCase {
     public void execute(IssueCertificateCommand command) {
         Certificate certificate = Certificate.issue(
                 command.enrollmentId(),
-                command.studentId(),
+                command.userId(),
                 command.courseId(),
                 verificationCodeGenerator
         );

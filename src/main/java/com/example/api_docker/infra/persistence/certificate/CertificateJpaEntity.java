@@ -24,8 +24,8 @@ public class CertificateJpaEntity {
     @Column(name = "enrollment_id", nullable = false, columnDefinition = "uuid")
     private UUID enrollmentId;
 
-    @Column(name = "student_id", nullable = false, columnDefinition = "uuid")
-    private UUID studentId;
+    @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
+    private UUID userId;
 
     @Column(name = "course_id", nullable = false, columnDefinition = "uuid")
     private UUID courseId;

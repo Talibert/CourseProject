@@ -18,8 +18,8 @@ public class ChangePasswordUseCase {
     private final DomainEventPublisher eventPublisher;
 
     public void execute(ChangePasswordCommand command) {
-        Student student = studentRepository.findById(command.studentId())
-                .orElseThrow(() -> new StudentNotFoundException(command.studentId()));
+        Student student = studentRepository.findById(command.userId())
+                .orElseThrow(() -> new StudentNotFoundException(command.userId()));
 
         if (!student.isActive())
             throw new StudentNotActiveException(student.getId());

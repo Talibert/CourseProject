@@ -1,15 +1,15 @@
 package com.example.api_docker.domain.enrollment;
 
 import com.example.api_docker.domain.certificate.CertificatePolicy;
+import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.course.CourseStructure;
 import com.example.api_docker.domain.course.LessonId;
-import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.enrollment.event.*;
 import com.example.api_docker.domain.enrollment.exception.EnrollmentCompletionNotAllowedException;
 import com.example.api_docker.domain.enrollment.exception.EnrollmentNotActiveException;
 import com.example.api_docker.domain.enrollment.exception.InvalidEnrollmentTransitionException;
 import com.example.api_docker.domain.shared.DomainEvent;
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class Enrollment {
 
     private final EnrollmentId id;
-    private final StudentId studentId;
+    private final UserId userId;
     private final CourseId courseId;
     private EnrollmentStatusType status;
     private Progress progress;
@@ -31,20 +31,20 @@ public class Enrollment {
 
     private final List<DomainEvent> domainEvents = new ArrayList<>();
 
-    private Enrollment(EnrollmentId id, StudentId studentId, CourseId courseId, int totalCourseLessons) {
+    private Enrollment(EnrollmentId id, UserId userId, CourseId courseId, int totalCourseLessons) {
         this.id = id;
-        this.studentId = studentId;
+        this.userId = userId;
         this.courseId = courseId;
         this.status = EnrollmentStatusType.PENDING;
         this.progress = Progress.zero(totalCourseLessons);
         this.enrolledAt = LocalDateTime.now();
     }
 
-    private Enrollment(EnrollmentId id, StudentId studentId, CourseId courseId,
+    private Enrollment(EnrollmentId id, UserId userId, CourseId courseId,
                        EnrollmentStatusType status, Progress progress,
                        LocalDateTime enrolledAt, LocalDateTime completedAt) {
         this.id = id;
-        this.studentId = studentId;
+        this.userId = userId;
         this.courseId = courseId;
         this.status = status;
         this.progress = progress;
@@ -52,16 +52,16 @@ public class Enrollment {
         this.completedAt = completedAt;
     }
 
-    public static Enrollment create(StudentId studentId, CourseId courseId, CourseStructure courseStructure) {
-        Enrollment enrollment = new Enrollment(EnrollmentId.generate(), studentId, courseId, courseStructure.totalLessons());
-        enrollment.domainEvents.add(new EnrollmentCreatedEvent(enrollment.id, studentId, courseId));
+    public static Enrollment create(UserId userId, CourseId courseId, CourseStructure courseStructure) {
+        Enrollment enrollment = new Enrollment(EnrollmentId.generate(), userId, courseId, courseStructure.totalLessons());
+        enrollment.domainEvents.add(new EnrollmentCreatedEvent(enrollment.id, userId, courseId));
         return enrollment;
     }
 
-    public static Enrollment restore(EnrollmentId id, StudentId studentId, CourseId courseId,
+    public static Enrollment restore(EnrollmentId id, UserId userId, CourseId courseId,
                                      EnrollmentStatusType status, Progress progress,
                                      LocalDateTime enrolledAt, LocalDateTime completedAt) {
-        return new Enrollment(id, studentId, courseId, status, progress, enrolledAt, completedAt);
+        return new Enrollment(id, userId, courseId, status, progress, enrolledAt, completedAt);
     }
 
     public void activate() {
@@ -110,7 +110,7 @@ public class Enrollment {
 
         this.status = EnrollmentStatusType.COMPLETED;
         this.completedAt = LocalDateTime.now();
-        domainEvents.add(new EnrollmentCompletedEvent(id, studentId, courseId));
+        domainEvents.add(new EnrollmentCompletedEvent(id, userId, courseId));
     }
 
     public void recordLessonProgress(LessonId lessonId, CourseStructure structure) {

@@ -21,7 +21,7 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public Optional<Student> findById(StudentId id) {
+    public Optional<Student> findById(UserId id) {
         return jpaRepository.findById(id.value()).map(this::toDomain);
     }
 

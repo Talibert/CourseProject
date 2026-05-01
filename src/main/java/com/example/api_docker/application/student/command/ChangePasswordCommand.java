@@ -1,5 +1,5 @@
 package com.example.api_docker.application.student.command;
 
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 
-public record ChangePasswordCommand(StudentId studentId, String currentPassword, String newPassword) {}
+public record ChangePasswordCommand(UserId userId, String currentPassword, String newPassword) {}

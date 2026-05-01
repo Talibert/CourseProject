@@ -1,5 +1,5 @@
 package com.example.api_docker.application.student.command;
 
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 
-public record ReactivateStudentCommand(StudentId studentId) {}
+public record ReactivateStudentCommand(UserId userId) {}

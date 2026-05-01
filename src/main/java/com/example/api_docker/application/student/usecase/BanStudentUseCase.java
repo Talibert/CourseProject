@@ -16,13 +16,13 @@ public class BanStudentUseCase {
     private final DomainEventPublisher eventPublisher;
 
     public void execute(BanStudentCommand command) {
-        var student = studentRepository.findById(command.studentId())
-                .orElseThrow(() -> new StudentNotFoundException(command.studentId()));
+        var student = studentRepository.findById(command.userId())
+                .orElseThrow(() -> new StudentNotFoundException(command.userId()));
 
         student.ban();
         studentRepository.save(student);
 
-        enrollmentRepository.findActiveByStudent(command.studentId())
+        enrollmentRepository.findActiveByStudent(command.userId())
                 .forEach(enrollment -> {
                     enrollment.cancel(CancellationReason.STUDENT_BANNED);
                     enrollmentRepository.save(enrollment);

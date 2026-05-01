@@ -9,7 +9,7 @@ import com.example.api_docker.domain.certificate.event.CertificateIssuedEvent;
 import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.enrollment.EnrollmentId;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,11 +43,11 @@ public class IssueCertificateUseCaseTest extends UnitAbstractTests {
     @Test
     void shouldIssueCertificateSuccessfully() {
         EnrollmentId enrollmentId = mock(EnrollmentId.class);
-        StudentId studentId = mock(StudentId.class);
+        UserId userId = mock(UserId.class);
         CourseId courseId = mock(CourseId.class);
         String verificationCode = "VALID-CODE-2026";
 
-        IssueCertificateCommand command = new IssueCertificateCommand(enrollmentId, studentId, courseId);
+        IssueCertificateCommand command = new IssueCertificateCommand(enrollmentId, userId, courseId);
         when(codeGenerator.generate()).thenReturn(verificationCode);
 
         useCase.execute(command);
@@ -57,7 +57,7 @@ public class IssueCertificateUseCaseTest extends UnitAbstractTests {
 
         Certificate savedCertificate = certificateCaptor.getValue();
         assertEquals(enrollmentId, savedCertificate.getEnrollmentId());
-        assertEquals(studentId, savedCertificate.getStudentId());
+        assertEquals(userId, savedCertificate.getUserId());
         assertEquals(courseId, savedCertificate.getCourseId());
         assertEquals(verificationCode, savedCertificate.getVerificationCode());
 
@@ -67,11 +67,11 @@ public class IssueCertificateUseCaseTest extends UnitAbstractTests {
     @Test
     void shouldPublishDomainEvents() {
         EnrollmentId enrollmentId = mock(EnrollmentId.class);
-        StudentId studentId = mock(StudentId.class);
+        UserId userId = mock(UserId.class);
         CourseId courseId = mock(CourseId.class);
         String verificationCode = "VALID-CODE-2026";
 
-        IssueCertificateCommand command = new IssueCertificateCommand(enrollmentId, studentId, courseId);
+        IssueCertificateCommand command = new IssueCertificateCommand(enrollmentId, userId, courseId);
         when(codeGenerator.generate()).thenReturn(verificationCode);
 
         useCase.execute(command);
@@ -81,7 +81,7 @@ public class IssueCertificateUseCaseTest extends UnitAbstractTests {
 
         CertificateIssuedEvent publishedEvent = eventCaptor.getValue();
 
-        assertEquals(studentId, publishedEvent.studentId());
+        assertEquals(userId, publishedEvent.userId());
         assertEquals(courseId, publishedEvent.courseId());
     }
 }

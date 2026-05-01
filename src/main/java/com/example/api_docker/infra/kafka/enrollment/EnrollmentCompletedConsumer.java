@@ -19,7 +19,7 @@ public class EnrollmentCompletedConsumer {
     public void handle(EnrollmentCompletedEvent event) {
         IssueCertificateCommand command = new IssueCertificateCommand(
                 event.enrollmentId(),
-                event.studentId(),
+                event.userId(),
                 event.courseId()
         );
         issueCertificateUseCase.execute(command);

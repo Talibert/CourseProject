@@ -12,8 +12,8 @@ public class GetStudentUseCase {
     private final StudentRepository studentRepository;
 
     public StudentResult execute(GetStudentQuery query) {
-        var student = studentRepository.findById(query.studentId())
-                .orElseThrow(() -> new StudentNotFoundException(query.studentId()));
+        var student = studentRepository.findById(query.userId())
+                .orElseThrow(() -> new StudentNotFoundException(query.userId()));
 
         return new StudentResult(
                 student.getId().value(),

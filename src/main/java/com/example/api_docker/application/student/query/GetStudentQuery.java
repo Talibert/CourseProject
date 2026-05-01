@@ -1,5 +1,5 @@
 package com.example.api_docker.application.student.query;
 
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 
-public record GetStudentQuery(StudentId studentId) {}
+public record GetStudentQuery(UserId userId) {}

@@ -13,8 +13,8 @@ public class ReactivateStudentUseCase {
     private final DomainEventPublisher eventPublisher;
 
     public void execute(ReactivateStudentCommand command) {
-        var student = studentRepository.findById(command.studentId())
-                .orElseThrow(() -> new StudentNotFoundException(command.studentId()));
+        var student = studentRepository.findById(command.userId())
+                .orElseThrow(() -> new StudentNotFoundException(command.userId()));
 
         // Domínio valida — só SUSPENDED pode reativar, BANNED não
         student.reactivate();

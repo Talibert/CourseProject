@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public record LoginResult(
         String token,
-        UUID studentId,
+        UUID userId,
         String fullName
 ) {}

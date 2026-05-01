@@ -7,7 +7,7 @@ import com.example.api_docker.domain.enrollment.Enrollment;
 import com.example.api_docker.domain.enrollment.EnrollmentId;
 import com.example.api_docker.domain.enrollment.EnrollmentRepository;
 import com.example.api_docker.domain.enrollment.Progress;
-import com.example.api_docker.domain.student.StudentId;
+import com.example.api_docker.domain.user.UserId;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -40,7 +40,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     }
 
     @Override
-    public List<Enrollment> findActiveByStudent(StudentId studentId) {
+    public List<Enrollment> findActiveByStudent(UserId userId) {
         // TODO implementar
         return List.of();
     }
@@ -48,7 +48,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     private EnrollmentJpaEntity toJpaEntity(Enrollment enrollment) {
         EnrollmentJpaEntity entity = new EnrollmentJpaEntity();
         entity.setId(enrollment.getId().value());
-        entity.setStudentId(enrollment.getStudentId().value());
+        entity.setUserId(enrollment.getUserId().value());
         entity.setCourseId(enrollment.getCourseId().value());
         entity.setStatus(enrollment.getStatus());
         entity.setEnrolledAt(enrollment.getEnrolledAt());
@@ -79,7 +79,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
         Progress progress = new Progress(completedLessons, grades, entity.getTotalLessons());
 
-        return Enrollment.restore(new EnrollmentId(entity.getId()), new StudentId(entity.getStudentId()),
+        return Enrollment.restore(new EnrollmentId(entity.getId()), new UserId(entity.getUserId()),
                 new CourseId(entity.getCourseId()), entity.getStatus(), progress, entity.getEnrolledAt(),
                 entity.getCompletedAt());
     }

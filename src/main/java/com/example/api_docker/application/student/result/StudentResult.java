@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record StudentResult(
-        UUID studentId,
+        UUID userId,
         String fullName,
         String email,
         StudentStatus status,
