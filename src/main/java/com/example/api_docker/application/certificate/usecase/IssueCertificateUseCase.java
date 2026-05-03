@@ -6,8 +6,10 @@ import com.example.api_docker.domain.certificate.CertificateRepository;
 import com.example.api_docker.domain.certificate.VerificationCodeGenerator;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class IssueCertificateUseCase {
 
     private final CertificateRepository certificateRepository;

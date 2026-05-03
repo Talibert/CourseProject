@@ -5,10 +5,13 @@ import com.example.api_docker.application.student.result.LoginResult;
 import com.example.api_docker.domain.student.*;
 import com.example.api_docker.domain.student.exception.InvalidCredentialsException;
 import com.example.api_docker.domain.student.exception.StudentNotActiveException;
+import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.UserRole;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class LoginStudentUseCase {
 
     private final StudentRepository studentRepository;

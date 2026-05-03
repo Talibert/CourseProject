@@ -3,8 +3,8 @@ package com.example.api_docker.domain.admin;
 import com.example.api_docker.domain.admin.event.AdminCreatedEvent;
 import com.example.api_docker.domain.admin.event.AdminPasswordChangedEvent;
 import com.example.api_docker.domain.shared.DomainEvent;
-import com.example.api_docker.domain.student.Email;
-import com.example.api_docker.domain.student.FullName;
+import com.example.api_docker.domain.user.Email;
+import com.example.api_docker.domain.user.FullName;
 import com.example.api_docker.domain.user.User;
 import com.example.api_docker.domain.user.UserId;
 
@@ -18,7 +18,7 @@ public class Admin extends User {
     }
 
     public static Admin create(FullName name, Email email, String passwordHash) {
-        var admin = new Admin(
+        Admin admin = new Admin(
                 UserId.generate(), name, email,
                 passwordHash, LocalDateTime.now()
         );

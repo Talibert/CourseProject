@@ -6,7 +6,7 @@ import com.example.api_docker.application.student.result.StudentResult;
 import com.example.api_docker.application.student.usecase.GetStudentUseCase;
 import com.example.api_docker.application.student.usecase.LoginStudentUseCase;
 import com.example.api_docker.application.student.usecase.RegisterStudentUseCase;
-import com.example.api_docker.domain.student.Email;
+import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.student.StudentStatus;
 import com.example.api_docker.domain.student.exception.EmailAlreadyInUseException;
 import com.example.api_docker.domain.student.exception.InvalidCredentialsException;

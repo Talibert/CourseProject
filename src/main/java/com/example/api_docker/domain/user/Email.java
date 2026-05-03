@@ -1,4 +1,4 @@
-package com.example.api_docker.domain.student;
+package com.example.api_docker.domain.user;
 
 import com.example.api_docker.domain.shared.exception.DomainException;
 

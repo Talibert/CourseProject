@@ -16,7 +16,7 @@ import java.util.UUID;
 public class StudentJpaEntity {
 
     @Id
-    @Column(name = "user_id",columnDefinition = "uuid")
+    @Column(name = "student_id", columnDefinition = "uuid")
     private UUID id;
 
     @Column(name = "first_name", nullable = false)

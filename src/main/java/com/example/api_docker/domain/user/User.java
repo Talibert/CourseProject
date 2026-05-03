@@ -2,8 +2,6 @@ package com.example.api_docker.domain.user;
 
 import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.shared.exception.DomainException;
-import com.example.api_docker.domain.student.Email;
-import com.example.api_docker.domain.student.FullName;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

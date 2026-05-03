@@ -1,7 +1,7 @@
 package com.example.api_docker.domain.admin.event;
 
 import com.example.api_docker.domain.shared.DomainEvent;
-import com.example.api_docker.domain.student.Email;
+import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.UserId;
 
 import java.time.LocalDateTime;

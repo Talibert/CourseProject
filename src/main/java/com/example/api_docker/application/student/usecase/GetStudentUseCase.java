@@ -5,8 +5,10 @@ import com.example.api_docker.application.student.result.StudentResult;
 import com.example.api_docker.domain.student.StudentRepository;
 import com.example.api_docker.domain.student.exception.StudentNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class GetStudentUseCase {
 
     private final StudentRepository studentRepository;

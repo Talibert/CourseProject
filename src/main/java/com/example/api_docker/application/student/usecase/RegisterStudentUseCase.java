@@ -5,9 +5,13 @@ import com.example.api_docker.domain.shared.DomainEventPublisher;
 import com.example.api_docker.domain.student.*;
 import com.example.api_docker.domain.student.exception.CpfAlreadyInUseException;
 import com.example.api_docker.domain.student.exception.EmailAlreadyInUseException;
+import com.example.api_docker.domain.user.Email;
+import com.example.api_docker.domain.user.FullName;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class RegisterStudentUseCase {
 
     private final StudentRepository studentRepository;

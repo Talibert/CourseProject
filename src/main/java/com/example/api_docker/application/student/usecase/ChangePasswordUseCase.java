@@ -9,8 +9,10 @@ import com.example.api_docker.domain.student.exception.InvalidCredentialsExcepti
 import com.example.api_docker.domain.student.exception.StudentNotActiveException;
 import com.example.api_docker.domain.student.exception.StudentNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class ChangePasswordUseCase {
 
     private final StudentRepository studentRepository;

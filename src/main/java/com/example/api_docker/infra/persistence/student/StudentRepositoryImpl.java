@@ -1,6 +1,8 @@
 package com.example.api_docker.infra.persistence.student;
 
 import com.example.api_docker.domain.student.*;
+import com.example.api_docker.domain.user.Email;
+import com.example.api_docker.domain.user.FullName;
 import com.example.api_docker.domain.user.UserId;
 import org.springframework.stereotype.Component;
 

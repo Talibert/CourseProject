@@ -7,8 +7,10 @@ import com.example.api_docker.domain.shared.DomainEventPublisher;
 import com.example.api_docker.domain.student.StudentRepository;
 import com.example.api_docker.domain.student.exception.StudentNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class BanStudentUseCase {
 
     private final StudentRepository studentRepository;
