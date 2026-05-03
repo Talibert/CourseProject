@@ -2,10 +2,10 @@ package com.example.api_docker.application.student.usecase;
 
 import com.example.api_docker.application.student.command.ChangePasswordCommand;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
-import com.example.api_docker.domain.student.PasswordEncoder;
+import com.example.api_docker.domain.user.PasswordEncoder;
 import com.example.api_docker.domain.student.Student;
 import com.example.api_docker.domain.student.StudentRepository;
-import com.example.api_docker.domain.student.exception.InvalidCredentialsException;
+import com.example.api_docker.domain.user.exception.InvalidCredentialsException;
 import com.example.api_docker.domain.student.exception.StudentNotActiveException;
 import com.example.api_docker.domain.student.exception.StudentNotFoundException;
 import lombok.AllArgsConstructor;

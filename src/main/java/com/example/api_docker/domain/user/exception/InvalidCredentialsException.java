@@ -1,6 +1,4 @@
-package com.example.api_docker.domain.student.exception;
-
-import com.example.api_docker.domain.student.StudentStatus;
+package com.example.api_docker.domain.user.exception;
 
 public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException() {

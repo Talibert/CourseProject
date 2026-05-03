@@ -1,9 +1,9 @@
 package com.example.api_docker.infra.controller.student;
 
-import com.example.api_docker.application.student.command.LoginCommand;
+import com.example.api_docker.application.shared.LoginCommand;
 import com.example.api_docker.application.student.command.RegisterStudentCommand;
 import com.example.api_docker.application.student.query.GetStudentQuery;
-import com.example.api_docker.application.student.result.LoginResult;
+import com.example.api_docker.application.shared.LoginResult;
 import com.example.api_docker.application.student.result.StudentResult;
 import com.example.api_docker.application.student.usecase.GetStudentUseCase;
 import com.example.api_docker.application.student.usecase.LoginStudentUseCase;
@@ -12,6 +12,7 @@ import com.example.api_docker.domain.user.UserId;
 import com.example.api_docker.infra.controller.student.request.LoginRequest;
 import com.example.api_docker.infra.controller.student.request.RegisterStudentRequest;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/students")
 public class StudentController {
 
@@ -27,17 +29,9 @@ public class StudentController {
     private final LoginStudentUseCase loginStudentUseCase;
     private final GetStudentUseCase getStudentUseCase;
 
-    public StudentController(RegisterStudentUseCase registerStudentUseCase,
-                             LoginStudentUseCase loginStudentUseCase,
-                             GetStudentUseCase getStudentUseCase) {
-        this.registerStudentUseCase = registerStudentUseCase;
-        this.loginStudentUseCase = loginStudentUseCase;
-        this.getStudentUseCase = getStudentUseCase;
-    }
-
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterStudentRequest request) {
-        var command = new RegisterStudentCommand(
+        RegisterStudentCommand command = new RegisterStudentCommand(
                 request.firstName(),
                 request.lastName(),
                 request.email(),

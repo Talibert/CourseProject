@@ -1,7 +1,7 @@
 package com.example.api_docker.infra.security;
 
 import com.example.api_docker.domain.user.Email;
-import com.example.api_docker.domain.student.TokenGenerator;
+import com.example.api_docker.domain.user.TokenGenerator;
 import com.example.api_docker.domain.user.UserId;
 import com.example.api_docker.domain.user.UserRole;
 import io.jsonwebtoken.Jwts;

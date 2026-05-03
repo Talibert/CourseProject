@@ -4,9 +4,10 @@ import com.example.api_docker.application.student.command.RegisterStudentCommand
 import com.example.api_docker.domain.shared.DomainEventPublisher;
 import com.example.api_docker.domain.student.*;
 import com.example.api_docker.domain.student.exception.CpfAlreadyInUseException;
-import com.example.api_docker.domain.student.exception.EmailAlreadyInUseException;
+import com.example.api_docker.domain.user.exception.EmailAlreadyInUseException;
 import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.FullName;
+import com.example.api_docker.domain.user.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

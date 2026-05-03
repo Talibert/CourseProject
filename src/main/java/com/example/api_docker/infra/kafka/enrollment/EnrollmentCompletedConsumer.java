@@ -1,7 +1,7 @@
 package com.example.api_docker.infra.kafka.enrollment;
 
-import com.example.api_docker.application.certificate.usecase.IssueCertificateUseCase;
 import com.example.api_docker.application.certificate.command.IssueCertificateCommand;
+import com.example.api_docker.application.certificate.usecase.IssueCertificateUseCase;
 import com.example.api_docker.domain.enrollment.event.EnrollmentCompletedEvent;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;

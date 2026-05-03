@@ -1,6 +1,6 @@
 package com.example.api_docker.infra.security;
 
-import com.example.api_docker.domain.student.PasswordEncoder;
+import com.example.api_docker.domain.user.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 

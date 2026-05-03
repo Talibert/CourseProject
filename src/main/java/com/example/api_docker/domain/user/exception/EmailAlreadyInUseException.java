@@ -1,4 +1,4 @@
-package com.example.api_docker.domain.student.exception;
+package com.example.api_docker.domain.user.exception;
 
 public class EmailAlreadyInUseException extends RuntimeException{
 

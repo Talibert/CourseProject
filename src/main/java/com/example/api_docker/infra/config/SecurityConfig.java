@@ -44,9 +44,11 @@ public class SecurityConfig {
                                 response.sendError(HttpServletResponse.SC_FORBIDDEN))
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/health").permitAll()
                         .requestMatchers(HttpMethod.POST, "/students/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/students/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/admin/login").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/courses/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
