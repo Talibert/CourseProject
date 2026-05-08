@@ -39,7 +39,7 @@ public class AdminRepositoryImpl implements AdminRepository {
     }
 
     private AdminJpaEntity toJpaEntity(Admin admin) {
-        var entity = new AdminJpaEntity();
+        AdminJpaEntity entity = new AdminJpaEntity();
         entity.setId(admin.getId().value());
         entity.setFirstName(admin.getName().firstName());
         entity.setLastName(admin.getName().lastName());
