@@ -21,6 +21,7 @@ public class Course {
     private final CourseId id;
     @Getter
     private CourseStatusType status;
+    @Getter
     private final String title;
     private final String description;
     private final InstructorId instructorId;
