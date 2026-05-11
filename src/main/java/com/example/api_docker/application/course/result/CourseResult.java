@@ -1,11 +1,11 @@
-package com.example.api_docker.application.course;
+package com.example.api_docker.application.course.result;
 
 import com.example.api_docker.domain.course.Course;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
-// application/course/result/CourseResult.java
 public record CourseResult(
         UUID courseId,
         String title,

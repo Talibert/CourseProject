@@ -15,13 +15,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 public class Course {
 
-    @Getter
     private final CourseId id;
-    @Getter
     private CourseStatusType status;
-    @Getter
     private final String title;
     private final String description;
     private final InstructorId instructorId;

@@ -25,6 +25,19 @@ public class Module {
         this.lessons = new ArrayList<>();
     }
 
+    public static Module restore(ModuleId id, String title, int order, List<Lesson> lessons) {
+        Module module = new Module(id, title, order);
+        module.lessons.addAll(lessons);
+        return module;
+    }
+
+    private Module(ModuleId id, String title, int order) {
+        this.id = id;
+        this.title = title;
+        this.order = order;
+        this.lessons = new ArrayList<>();
+    }
+
     public void addLesson(Lesson lesson) {
         boolean orderExists = lessons.stream().anyMatch(l -> l.getOrder() == lesson.getOrder());
 

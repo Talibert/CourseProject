@@ -1,6 +1,6 @@
 package com.example.api_docker.application.course.usecase;
 
-import com.example.api_docker.application.course.CourseResult;
+import com.example.api_docker.application.course.result.CourseResult;
 import com.example.api_docker.application.course.command.CreateCourseCommand;
 import com.example.api_docker.domain.course.Course;
 import com.example.api_docker.domain.course.CourseRepository;

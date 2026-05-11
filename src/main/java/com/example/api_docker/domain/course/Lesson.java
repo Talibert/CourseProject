@@ -1,7 +1,9 @@
 package com.example.api_docker.domain.course;
 
 import com.example.api_docker.domain.shared.exception.DomainException;
+import lombok.Getter;
 
+@Getter
 public class Lesson {
 
     private final LessonId id;
@@ -19,8 +21,14 @@ public class Lesson {
         this.durationMinutes = durationMinutes;
     }
 
-    public LessonId getId()         { return id; }
-    public String getTitle()        { return title; }
-    public int getOrder()           { return order; }
-    public int getDurationMinutes() { return durationMinutes; }
+    public static Lesson restore(LessonId id, String title, int order, int durationMinutes) {
+        return new Lesson(id, title, order, durationMinutes);
+    }
+
+    private Lesson(LessonId id, String title, int order, int durationMinutes) {
+        this.id = id;
+        this.title = title;
+        this.order = order;
+        this.durationMinutes = durationMinutes;
+    }
 }
