@@ -2,13 +2,14 @@ package com.example.api_docker.application.student.usecase;
 
 import com.example.api_docker.application.shared.LoginCommand;
 import com.example.api_docker.application.shared.LoginResult;
-import com.example.api_docker.domain.student.*;
-import com.example.api_docker.domain.user.exception.InvalidCredentialsException;
+import com.example.api_docker.domain.student.Student;
+import com.example.api_docker.domain.student.StudentRepository;
 import com.example.api_docker.domain.student.exception.StudentNotActiveException;
 import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.PasswordEncoder;
 import com.example.api_docker.domain.user.TokenGenerator;
 import com.example.api_docker.domain.user.UserRole;
+import com.example.api_docker.domain.user.exception.InvalidCredentialsException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

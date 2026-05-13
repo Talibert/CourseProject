@@ -1,9 +1,9 @@
 package com.example.api_docker.infra.controller.student;
 
 import com.example.api_docker.application.shared.LoginCommand;
+import com.example.api_docker.application.shared.LoginResult;
 import com.example.api_docker.application.student.command.RegisterStudentCommand;
 import com.example.api_docker.application.student.query.GetStudentQuery;
-import com.example.api_docker.application.shared.LoginResult;
 import com.example.api_docker.application.student.result.StudentResult;
 import com.example.api_docker.application.student.usecase.GetStudentUseCase;
 import com.example.api_docker.application.student.usecase.LoginStudentUseCase;
