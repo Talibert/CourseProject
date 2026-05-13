@@ -23,7 +23,7 @@ public class LoginStudentUseCase {
 
     public LoginResult execute(LoginCommand command) {
         Student student = studentRepository.findByEmail(new Email(command.email()))
-                .orElseThrow(() -> new InvalidCredentialsException());
+                .orElseThrow(InvalidCredentialsException::new);
 
         if (!student.isActive())
             throw new StudentNotActiveException(student.getId());

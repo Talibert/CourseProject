@@ -9,9 +9,11 @@ import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.FullName;
 import com.example.api_docker.domain.user.User;
 import com.example.api_docker.domain.user.UserId;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class Instructor extends User {
 
     private String bio;
@@ -69,9 +71,4 @@ public class Instructor extends User {
     protected DomainEvent onPasswordChanged() {
         return new InstructorPasswordChangedEvent(getId());
     }
-
-    public String getBio()                { return bio; }
-    public String getSpecialty()          { return specialty; }
-    public String getProfilePicture()     { return profilePicture; }
-    public SocialLinks getSocialLinks()   { return socialLinks; }
 }
