@@ -1,15 +1,11 @@
 package com.example.api_docker.infra.controller.student;
 
-import com.example.api_docker.application.shared.LoginCommand;
-import com.example.api_docker.application.shared.LoginResult;
 import com.example.api_docker.application.student.command.RegisterStudentCommand;
 import com.example.api_docker.application.student.query.GetStudentQuery;
 import com.example.api_docker.application.student.result.StudentResult;
 import com.example.api_docker.application.student.usecase.GetStudentUseCase;
-import com.example.api_docker.application.student.usecase.LoginStudentUseCase;
 import com.example.api_docker.application.student.usecase.RegisterStudentUseCase;
 import com.example.api_docker.domain.user.UserId;
-import com.example.api_docker.infra.controller.student.request.LoginRequest;
 import com.example.api_docker.infra.controller.student.request.RegisterStudentRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -26,7 +22,6 @@ import java.util.UUID;
 public class StudentController {
 
     private final RegisterStudentUseCase registerStudentUseCase;
-    private final LoginStudentUseCase loginStudentUseCase;
     private final GetStudentUseCase getStudentUseCase;
 
     @PostMapping("/register")
@@ -41,13 +36,6 @@ public class StudentController {
         );
         registerStudentUseCase.execute(command);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResult> login(@RequestBody @Valid LoginRequest request) {
-        var command = new LoginCommand(request.email(), request.password());
-        var result = loginStudentUseCase.execute(command);
-        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/me")

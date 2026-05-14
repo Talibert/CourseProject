@@ -4,10 +4,7 @@ import com.example.api_docker.ControllerAbstractTests;
 import com.example.api_docker.application.admin.result.AdminResult;
 import com.example.api_docker.application.admin.usecase.CreateAdminUseCase;
 import com.example.api_docker.application.admin.usecase.GetAdminUseCase;
-import com.example.api_docker.application.admin.usecase.LoginAdminUseCase;
-import com.example.api_docker.application.shared.LoginResult;
 import com.example.api_docker.infra.controller.admin.request.CreateAdminRequest;
-import com.example.api_docker.infra.controller.admin.request.LoginRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,7 +13,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -34,9 +30,6 @@ class AdminControllerTest extends ControllerAbstractTests {
 
     @MockitoBean
     private CreateAdminUseCase createAdminUseCase;
-
-    @MockitoBean
-    private LoginAdminUseCase loginAdminUseCase;
 
     @MockitoBean
     private GetAdminUseCase getAdminUseCase;
@@ -73,26 +66,6 @@ class AdminControllerTest extends ControllerAbstractTests {
                         .content(objectMapper.writeValueAsString(request))
                         .header("Authorization", "Bearer " + tokenDoStudent))
                 .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void shouldReturnTokenWhenLoginWithValidCredentials() throws Exception {
-        LoginRequest request = new LoginRequest(
-                "guilhermenovo@gmail.com", "senha123"
-        );
-
-        LoginResult loginResult = new LoginResult(
-                "jwt-token-gerado", UUID.randomUUID(), "Guilherme Taliberti"
-        );
-
-        when(loginAdminUseCase.execute(any())).thenReturn(loginResult);
-
-        mockMvc.perform(post("/admin/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").value("jwt-token-gerado"))
-                .andExpect(jsonPath("$.fullName").value("Guilherme Taliberti"));
     }
 
     @Test

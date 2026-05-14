@@ -1,18 +1,14 @@
 package com.example.api_docker.infra.controller.student;
 
 import com.example.api_docker.ControllerAbstractTests;
-import com.example.api_docker.application.shared.LoginResult;
 import com.example.api_docker.application.student.result.StudentResult;
 import com.example.api_docker.application.student.usecase.GetStudentUseCase;
-import com.example.api_docker.application.student.usecase.LoginStudentUseCase;
 import com.example.api_docker.application.student.usecase.RegisterStudentUseCase;
 import com.example.api_docker.domain.student.StudentStatus;
 import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.UserId;
 import com.example.api_docker.domain.user.UserRole;
 import com.example.api_docker.domain.user.exception.EmailAlreadyInUseException;
-import com.example.api_docker.domain.user.exception.InvalidCredentialsException;
-import com.example.api_docker.infra.controller.student.request.LoginRequest;
 import com.example.api_docker.infra.controller.student.request.RegisterStudentRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +36,6 @@ class StudentControllerTest extends ControllerAbstractTests {
 
     @MockitoBean
     private RegisterStudentUseCase registerStudentUseCase;
-
-    @MockitoBean
-    private LoginStudentUseCase loginStudentUseCase;
 
     @MockitoBean
     private GetStudentUseCase getStudentUseCase;
@@ -95,39 +88,6 @@ class StudentControllerTest extends ControllerAbstractTests {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_ERROR"));
-    }
-
-    // ─── Login ──────────────────────────────────────────────────
-
-    @Test
-    void shouldReturnTokenWhenLoginWithValidCredentials() throws Exception {
-        LoginRequest request = new LoginRequest("joao@email.com", "senha123");
-        LoginResult loginResult = new LoginResult(
-                "jwt-token-gerado", UUID.randomUUID(), "João Silva"
-        );
-
-        when(loginStudentUseCase.execute(any())).thenReturn(loginResult);
-
-        mockMvc.perform(post("/students/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").value("jwt-token-gerado"))
-                .andExpect(jsonPath("$.fullName").value("João Silva"));
-    }
-
-    @Test
-    void shouldReturn401WhenLoginWithWrongPassword() throws Exception {
-        LoginRequest request = new LoginRequest("joao@email.com", "senha-errada");
-
-        doThrow(new InvalidCredentialsException())
-                .when(loginStudentUseCase).execute(any());
-
-        mockMvc.perform(post("/students/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.code").value("INVALID_CREDENTIALS"));
     }
 
     // ─── GET /me ────────────────────────────────────────────────

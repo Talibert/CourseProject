@@ -43,12 +43,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/health").permitAll()
                         .requestMatchers(HttpMethod.POST, "/students/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/students/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/admin/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/instructor/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()  // ← único login
                         .requestMatchers(HttpMethod.GET, "/courses").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/courses/{id}").authenticated()
-                        .requestMatchers("/courses/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/courses/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/courses/**").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/instructor/**").hasAnyRole("ADMIN", "INSTRUCTOR")
                         .anyRequest().authenticated()

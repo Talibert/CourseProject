@@ -1,4 +1,4 @@
-package com.example.api_docker.infra.controller.student.request;
+package com.example.api_docker.infra.controller.auth.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

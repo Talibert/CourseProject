@@ -2,4 +2,4 @@ package com.example.api_docker.application.shared;
 
 import java.util.UUID;
 
-public record LoginResult(String token, UUID userId, String fullName) {}
+public record LoginResult(String token, UUID userId, String fullName, String role) {}
