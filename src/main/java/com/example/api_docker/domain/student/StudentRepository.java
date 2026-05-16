@@ -10,5 +10,4 @@ public interface StudentRepository {
     Optional<Student> findById(UserId id);
     Optional<Student> findByEmail(Email email);
     boolean existsByCpf(Cpf cpf);
-    boolean existsByEmail(Email email);
 }

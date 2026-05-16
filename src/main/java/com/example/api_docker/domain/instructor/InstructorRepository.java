@@ -9,6 +9,5 @@ public interface InstructorRepository {
     void save(Instructor instructor);
     Optional<Instructor> findById(UserId id);
     Optional<Instructor> findByEmail(Email email);
-    boolean existsByEmail(Email email);
     boolean existsById(UserId id);
 }

@@ -9,5 +9,4 @@ public interface AdminRepository {
     void save(Admin admin);
     Optional<Admin> findById(UserId id);
     Optional<Admin> findByEmail(Email email);
-    boolean existsByEmail(Email email);
 }

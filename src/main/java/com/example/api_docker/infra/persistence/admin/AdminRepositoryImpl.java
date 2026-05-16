@@ -33,11 +33,6 @@ public class AdminRepositoryImpl implements AdminRepository {
         return jpaRepository.findByEmail(email.value()).map(this::toDomain);
     }
 
-    @Override
-    public boolean existsByEmail(Email email) {
-        return jpaRepository.existsByEmail(email.value());
-    }
-
     private AdminJpaEntity toJpaEntity(Admin admin) {
         AdminJpaEntity entity = new AdminJpaEntity();
         entity.setId(admin.getId().value());

@@ -7,6 +7,7 @@ import com.example.api_docker.domain.shared.DomainEventPublisher;
 import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.FullName;
 import com.example.api_docker.domain.user.PasswordEncoder;
+import com.example.api_docker.domain.user.UserRepository;
 import com.example.api_docker.domain.user.exception.EmailAlreadyInUseException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,11 +17,12 @@ import org.springframework.stereotype.Component;
 public class CreateAdminUseCase {
 
     private final AdminRepository adminRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final DomainEventPublisher eventPublisher;
 
     public void execute(CreateAdminCommand command) {
-        if (adminRepository.existsByEmail(new Email(command.email())))
+        if (userRepository.existsByEmail(new Email(command.email())))
             throw new EmailAlreadyInUseException(command.email());
 
         Admin admin = Admin.create(

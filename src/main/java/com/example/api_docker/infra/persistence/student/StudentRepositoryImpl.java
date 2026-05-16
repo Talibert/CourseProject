@@ -39,11 +39,6 @@ public class StudentRepositoryImpl implements StudentRepository {
         return jpaRepository.existsByCpf(cpf.value());
     }
 
-    @Override
-    public boolean existsByEmail(Email email) {
-        return jpaRepository.existsByEmail(email.value());
-    }
-
     private StudentJpaEntity toJpaEntity(Student student) {
         var entity = new StudentJpaEntity();
         entity.setId(student.getId().value());

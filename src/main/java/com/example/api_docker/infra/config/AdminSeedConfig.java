@@ -2,8 +2,8 @@ package com.example.api_docker.infra.config;
 
 import com.example.api_docker.application.admin.command.CreateAdminCommand;
 import com.example.api_docker.application.admin.usecase.CreateAdminUseCase;
-import com.example.api_docker.domain.admin.AdminRepository;
 import com.example.api_docker.domain.user.Email;
+import com.example.api_docker.domain.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -30,10 +30,10 @@ public class AdminSeedConfig {
 
     @Bean
     public CommandLineRunner seedAdmin(CreateAdminUseCase createAdminUseCase,
-                                       AdminRepository adminRepository) {
+                                       UserRepository userRepository) {
         return args -> {
             var adminEmail = new Email(email);
-            if (!adminRepository.existsByEmail(adminEmail)) {
+            if (!userRepository.existsByEmail(adminEmail)) {
                 createAdminUseCase.execute(new CreateAdminCommand(firstName, lastName, email, password));
 
                 log.info("Admin inicial criado: {}", email);

@@ -9,6 +9,7 @@ import com.example.api_docker.domain.student.exception.CpfAlreadyInUseException;
 import com.example.api_docker.domain.user.Email;
 import com.example.api_docker.domain.user.FullName;
 import com.example.api_docker.domain.user.PasswordEncoder;
+import com.example.api_docker.domain.user.UserRepository;
 import com.example.api_docker.domain.user.exception.EmailAlreadyInUseException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,11 +19,12 @@ import org.springframework.stereotype.Component;
 public class RegisterStudentUseCase {
 
     private final StudentRepository studentRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final DomainEventPublisher eventPublisher;
 
     public void execute(RegisterStudentCommand command) {
-        if (studentRepository.existsByEmail(new Email(command.email())))
+        if (userRepository.existsByEmail(new Email(command.email())))
             throw new EmailAlreadyInUseException(command.email());
 
         if (studentRepository.existsByCpf(new Cpf(command.cpf())))
