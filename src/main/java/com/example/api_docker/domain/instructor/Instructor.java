@@ -33,7 +33,7 @@ public class Instructor extends User {
 
     public static Instructor create(FullName name, Email email, String passwordHash,
                                     String bio, String specialty) {
-        var instructor = new Instructor(
+        Instructor instructor = new Instructor(
                 UserId.generate(), name, email, passwordHash,
                 bio, specialty, null, SocialLinks.empty(),
                 LocalDateTime.now()

@@ -33,11 +33,6 @@ public class InstructorRepositoryImpl implements InstructorRepository {
     }
 
     @Override
-    public boolean existsByEmail(Email email) {
-        return jpaRepository.existsByEmail(email.value());
-    }
-
-    @Override
     public boolean existsById(UserId userId) {
         return jpaRepository.existsById(userId.value());
     }
