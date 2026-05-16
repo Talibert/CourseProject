@@ -36,8 +36,10 @@ public abstract class ControllerAbstractTests {
      */
     protected String tokenDoAdmin;
     protected String tokenDoStudent;
+    protected String tokenDoInstructor;
     protected UserId idDoAdmin;
     protected UserId idDoStudent;
+    protected UserId idDoInstructor;
 
     @BeforeEach
     void setUp() {
@@ -45,17 +47,24 @@ public abstract class ControllerAbstractTests {
 
         idDoAdmin = new UserId(UUID.randomUUID());
         idDoStudent = new UserId(UUID.randomUUID());
+        idDoInstructor = new UserId(UUID.randomUUID());
 
         tokenDoAdmin = jwtTokenGenerator.generate(
                 idDoAdmin,
-                new Email("guilhermetaliberti@gmail.com"),
+                new Email("guilhermetalibertiadmin@gmail.com"),
                 UserRole.ADMIN
         );
 
         tokenDoStudent = jwtTokenGenerator.generate(
                 idDoStudent,
-                new Email("guilhermetaliberti@gmail.com"),
+                new Email("guilhermetalibertistudent@gmail.com"),
                 UserRole.STUDENT
+        );
+
+        tokenDoInstructor = jwtTokenGenerator.generate(
+                idDoInstructor,
+                new Email("guilhermetalibertiinstructor@gmail.com"),
+                UserRole.INSTRUCTOR
         );
     }
 }

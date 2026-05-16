@@ -41,14 +41,23 @@ public class SecurityConfig {
                                 response.sendError(HttpServletResponse.SC_FORBIDDEN))
                 )
                 .authorizeHttpRequests(auth -> auth
+                        // Rotas públicas
                         .requestMatchers(HttpMethod.GET, "/health").permitAll()
                         .requestMatchers(HttpMethod.POST, "/students/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()  // ← único login
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+
+                        // Courses — GET autenticado, resto só ADMIN
                         .requestMatchers(HttpMethod.GET, "/courses").authenticated()
                         .requestMatchers(HttpMethod.GET, "/courses/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/courses/**").hasRole("ADMIN")
+                        .requestMatchers("/courses/**").hasRole("ADMIN")
+
+                        // Admin
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // Instructor — register só ADMIN, resto ADMIN ou INSTRUCTOR
+                        .requestMatchers(HttpMethod.POST, "/instructor/register").hasRole("ADMIN")
                         .requestMatchers("/instructor/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
