@@ -22,9 +22,8 @@ public class CreateInstructorUseCase {
     private final DomainEventPublisher eventPublisher;
 
     public void execute(CreateInstructorCommand command) {
-        if (userRepository.existsByEmail(new Email(command.email()))) {
+        if (userRepository.existsByEmail(new Email(command.email())))
             throw new EmailAlreadyInUseException(command.email());
-        }
 
         Instructor instructor = Instructor.create(
                 new FullName(command.firstName(), command.lastName()),
