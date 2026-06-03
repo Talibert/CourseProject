@@ -18,7 +18,6 @@ public class ReactivateStudentUseCase {
         var student = studentRepository.findById(command.userId())
                 .orElseThrow(() -> new StudentNotFoundException(command.userId()));
 
-        // Domínio valida — só SUSPENDED pode reativar, BANNED não
         student.reactivate();
 
         studentRepository.save(student);
