@@ -96,15 +96,14 @@ public class Enrollment {
         domainEvents.add(new EnrollmentCancelledEvent(id, reason));
     }
 
-    public void complete(CertificatePolicy policy, CourseStructure courseStructure) {
+    public void complete(CertificatePolicy policy) {
         if (status != EnrollmentStatusType.ACTIVE)
             throw new InvalidEnrollmentTransitionException(status, EnrollmentStatusType.COMPLETED);
 
-        // A regra de negócio vive aqui — não no use case, não no service
-        if (!policy.isSatisfiedBy(this, courseStructure)) {
+        if (!policy.isSatisfiedBy(this)) {
             throw new EnrollmentCompletionNotAllowedException(
                     "Progresso insuficiente: %.0f%% (mínimo 70%%) ou nota abaixo do exigido"
-                            .formatted(progress.percentage(courseStructure))
+                            .formatted(progress.percentage())
             );
         }
 
@@ -119,7 +118,7 @@ public class Enrollment {
 
         this.progress = progress.withCompletedLesson(lessonId, structure);
 
-        double percentage = progress.percentage(structure);
+        double percentage = progress.percentage();
 
         if (percentage % 25 == 0 && percentage > 0)
             domainEvents.add(new ProgressMilestoneReachedEvent(id, percentage));

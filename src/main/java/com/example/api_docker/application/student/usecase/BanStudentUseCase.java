@@ -24,7 +24,7 @@ public class BanStudentUseCase {
         student.ban();
         studentRepository.save(student);
 
-        enrollmentRepository.findActiveByStudent(command.userId())
+        enrollmentRepository.findActiveByStudentId(command.userId().value())
                 .forEach(enrollment -> {
                     enrollment.cancel(CancellationReason.STUDENT_BANNED);
                     enrollmentRepository.save(enrollment);

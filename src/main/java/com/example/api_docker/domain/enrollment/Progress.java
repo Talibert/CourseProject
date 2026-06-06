@@ -18,7 +18,7 @@ public record Progress(Set<LessonId> completedLessons, Map<AssessmentId, BigDeci
         return new Progress(Set.of(), Map.of(), totalLessons);
     }
 
-    public double percentage(CourseStructure structure) {
+    public double percentage() {
         if(totalLessons == 0)
             return 0.0;
 

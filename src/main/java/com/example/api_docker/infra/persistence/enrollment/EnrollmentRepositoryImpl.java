@@ -3,18 +3,12 @@ package com.example.api_docker.infra.persistence.enrollment;
 import com.example.api_docker.domain.course.AssessmentId;
 import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.course.LessonId;
-import com.example.api_docker.domain.enrollment.Enrollment;
-import com.example.api_docker.domain.enrollment.EnrollmentId;
-import com.example.api_docker.domain.enrollment.EnrollmentRepository;
-import com.example.api_docker.domain.enrollment.Progress;
+import com.example.api_docker.domain.enrollment.*;
 import com.example.api_docker.domain.user.UserId;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
@@ -40,15 +34,32 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     }
 
     @Override
-    public List<Enrollment> findActiveByStudent(UserId userId) {
-        // TODO implementar
-        return List.of();
+    public List<Enrollment> findActiveByStudentId(UUID studentId) {
+        return jpaRepository
+                .findByStudentIdAndStatus(studentId, EnrollmentStatusType.ACTIVE)
+                .stream()
+                .map(this::toDomain)
+                .toList();
+    }
+
+    @Override
+    public List<Enrollment> findAllByStudentId(UUID studentId) {
+        return jpaRepository
+                .findAllByStudentId(studentId)
+                .stream()
+                .map(this::toDomain)
+                .toList();
+    }
+
+    @Override
+    public boolean existsActiveByStudentAndCourse(UUID studentId, UUID courseId) {
+        return jpaRepository.existsActiveByStudentIdAndCourseId(studentId, courseId);
     }
 
     private EnrollmentJpaEntity toJpaEntity(Enrollment enrollment) {
         EnrollmentJpaEntity entity = new EnrollmentJpaEntity();
         entity.setId(enrollment.getId().value());
-        entity.setUserId(enrollment.getUserId().value());
+        entity.setStudentId(enrollment.getUserId().value());
         entity.setCourseId(enrollment.getCourseId().value());
         entity.setStatus(enrollment.getStatus());
         entity.setEnrolledAt(enrollment.getEnrolledAt());
@@ -79,7 +90,7 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
         Progress progress = new Progress(completedLessons, grades, entity.getTotalLessons());
 
-        return Enrollment.restore(new EnrollmentId(entity.getId()), new UserId(entity.getUserId()),
+        return Enrollment.restore(new EnrollmentId(entity.getId()), new UserId(entity.getStudentId()),
                 new CourseId(entity.getCourseId()), entity.getStatus(), progress, entity.getEnrolledAt(),
                 entity.getCompletedAt());
     }

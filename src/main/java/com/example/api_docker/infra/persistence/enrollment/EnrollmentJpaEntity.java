@@ -22,8 +22,8 @@ public class EnrollmentJpaEntity {
     @Column(name = "enrollment_id", columnDefinition = "uuid")
     private UUID id;
 
-    @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
-    private UUID userId;
+    @Column(name = "student_id", nullable = false, columnDefinition = "uuid")
+    private UUID studentId;
 
     @Column(name = "course_id", nullable = false, columnDefinition = "uuid")
     private UUID courseId;

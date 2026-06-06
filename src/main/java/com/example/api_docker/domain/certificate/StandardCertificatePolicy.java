@@ -1,7 +1,7 @@
 package com.example.api_docker.domain.certificate;
 
-import com.example.api_docker.domain.course.CourseStructure;
 import com.example.api_docker.domain.enrollment.Enrollment;
+
 import java.math.BigDecimal;
 
 public class StandardCertificatePolicy implements CertificatePolicy {
@@ -10,8 +10,8 @@ public class StandardCertificatePolicy implements CertificatePolicy {
     private static final BigDecimal MIN_GRADE = new BigDecimal("6.0");
 
     @Override
-    public boolean isSatisfiedBy(Enrollment enrollment, CourseStructure courseStructure) {
-        return enrollment.getProgress().percentage(courseStructure) >= MIN_PROGRESS
+    public boolean isSatisfiedBy(Enrollment enrollment) {
+        return enrollment.getProgress().percentage() >= MIN_PROGRESS
                 && enrollment.getProgress().hasPassingGrade(MIN_GRADE);
     }
 }
