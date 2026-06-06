@@ -84,7 +84,7 @@ class BanStudentUseCaseTest extends UnitAbstractTests {
     @DisplayName("Deve banir student com sucesso")
     void shouldBanStudentSuccessfully() {
         when(studentRepository.findById(studentId)).thenReturn(Optional.of(activeStudent));
-        when(enrollmentRepository.findActiveByStudentId(studentId.value())).thenReturn(List.of());
+        when(enrollmentRepository.findActiveByStudentId(studentId)).thenReturn(List.of());
 
         banStudentUseCase.execute(new BanStudentCommand(studentId));
 
@@ -103,7 +103,7 @@ class BanStudentUseCaseTest extends UnitAbstractTests {
                 () -> banStudentUseCase.execute(new BanStudentCommand(studentId))
         );
 
-        verify(enrollmentRepository, never()).findActiveByStudentId(any(UUID.class));
+        verify(enrollmentRepository, never()).findActiveByStudentId(any(UserId.class));
         verify(enrollmentRepository, never()).save(any(Enrollment.class));
     }
 
@@ -131,7 +131,7 @@ class BanStudentUseCaseTest extends UnitAbstractTests {
         );
 
         when(studentRepository.findById(studentId)).thenReturn(Optional.of(activeStudent));
-        when(enrollmentRepository.findActiveByStudentId(studentId.value()))
+        when(enrollmentRepository.findActiveByStudentId(studentId))
                 .thenReturn(List.of(firstEnrollment, secondEnrollment));
 
         banStudentUseCase.execute(new BanStudentCommand(studentId));

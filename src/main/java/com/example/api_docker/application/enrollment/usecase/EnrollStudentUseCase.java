@@ -1,16 +1,16 @@
 package com.example.api_docker.application.enrollment.usecase;
 
 import com.example.api_docker.application.enrollment.command.EnrollStudentCommand;
-import com.example.api_docker.application.enrollment.exception.CourseNotPublishedException;
-import com.example.api_docker.application.enrollment.exception.EnrollmentAlreadyExistsException;
 import com.example.api_docker.application.enrollment.result.EnrollmentResult;
 import com.example.api_docker.domain.course.Course;
 import com.example.api_docker.domain.course.CourseRepository;
 import com.example.api_docker.domain.course.CourseStatusType;
 import com.example.api_docker.domain.course.CourseStructure;
 import com.example.api_docker.domain.course.exception.CourseNotFoundException;
+import com.example.api_docker.domain.course.exception.CourseNotPublishedException;
 import com.example.api_docker.domain.enrollment.Enrollment;
 import com.example.api_docker.domain.enrollment.EnrollmentRepository;
+import com.example.api_docker.domain.enrollment.exception.EnrollmentAlreadyExistsException;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

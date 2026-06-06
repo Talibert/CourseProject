@@ -34,18 +34,18 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
     }
 
     @Override
-    public List<Enrollment> findActiveByStudentId(UUID studentId) {
+    public List<Enrollment> findActiveByStudentId(UserId studentId) {
         return jpaRepository
-                .findByStudentIdAndStatus(studentId, EnrollmentStatusType.ACTIVE)
+                .findByStudentIdAndStatus(studentId.value(), EnrollmentStatusType.ACTIVE)
                 .stream()
                 .map(this::toDomain)
                 .toList();
     }
 
     @Override
-    public List<Enrollment> findAllByStudentId(UUID studentId) {
+    public List<Enrollment> findAllByStudentId(UserId studentId) {
         return jpaRepository
-                .findAllByStudentId(studentId)
+                .findAllByStudentId(studentId.value())
                 .stream()
                 .map(this::toDomain)
                 .toList();
@@ -53,7 +53,8 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 
     @Override
     public boolean existsActiveByStudentAndCourse(UUID studentId, UUID courseId) {
-        return jpaRepository.existsActiveByStudentIdAndCourseId(studentId, courseId);
+        return jpaRepository.existsByStudentIdAndCourseIdAndStatus(studentId,
+                courseId, EnrollmentStatusType.ACTIVE);
     }
 
     private EnrollmentJpaEntity toJpaEntity(Enrollment enrollment) {

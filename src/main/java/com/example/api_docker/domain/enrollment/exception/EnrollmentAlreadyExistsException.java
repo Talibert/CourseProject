@@ -1,4 +1,4 @@
-package com.example.api_docker.application.enrollment.exception;
+package com.example.api_docker.domain.enrollment.exception;
 
 import com.example.api_docker.domain.course.CourseId;
 import com.example.api_docker.domain.shared.exception.ConflictException;
