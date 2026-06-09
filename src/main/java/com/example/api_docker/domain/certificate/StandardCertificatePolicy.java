@@ -1,9 +1,11 @@
 package com.example.api_docker.domain.certificate;
 
 import com.example.api_docker.domain.enrollment.Enrollment;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@Component
 public class StandardCertificatePolicy implements CertificatePolicy {
 
     private static final double MIN_PROGRESS = 70.0;
