@@ -8,7 +8,6 @@ import com.example.api_docker.domain.shared.DomainEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-// application/enrollment/ReactivateEnrollmentUseCase.java
 @Component
 @RequiredArgsConstructor
 public class ReactivateEnrollmentUseCase {

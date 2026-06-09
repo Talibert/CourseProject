@@ -12,7 +12,6 @@ import com.example.api_docker.domain.shared.DomainEventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-// application/enrollment/WatchLessonUseCase.java
 @Component
 @RequiredArgsConstructor
 public class WatchLessonUseCase {
