@@ -84,8 +84,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
         );
     }
 
-    // ─── POST /enrollments ───────────────────────────────────────
-
     @Test
     @DisplayName("POST /enrollments - student matricula com sucesso")
     void shouldEnrollStudentSuccessfully() throws Exception {
@@ -125,8 +123,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
                 .andExpect(status().isForbidden());
     }
 
-    // ─── GET /enrollments/my ─────────────────────────────────────
-
     @Test
     @DisplayName("GET /enrollments/my - student lista próprias matrículas")
     void shouldListStudentEnrollmentsSuccessfully() throws Exception {
@@ -146,8 +142,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
         mockMvc.perform(get("/enrollments/my"))
                 .andExpect(status().isUnauthorized());
     }
-
-    // ─── GET /enrollments/{id} ───────────────────────────────────
 
     @Test
     @DisplayName("GET /enrollments/{id} - student busca própria matrícula")
@@ -171,8 +165,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
                 .andExpect(jsonPath("$.enrollmentId").value(enrollmentId.toString()));
     }
 
-    // ─── POST /enrollments/{id}/activate ─────────────────────────
-
     @Test
     @DisplayName("POST /enrollments/{id}/activate - admin ativa com sucesso")
     void shouldActivateEnrollmentSuccessfully() throws Exception {
@@ -191,8 +183,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
                 .andExpect(status().isForbidden());
     }
 
-    // ─── POST /enrollments/{id}/suspend ──────────────────────────
-
     @Test
     @DisplayName("POST /enrollments/{id}/suspend - admin suspende com sucesso")
     void shouldSuspendEnrollmentSuccessfully() throws Exception {
@@ -206,8 +196,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
                         .header("Authorization", "Bearer " + tokenDoAdmin))
                 .andExpect(status().isOk());
     }
-
-    // ─── POST /enrollments/{id}/cancel ───────────────────────────
 
     @Test
     @DisplayName("POST /enrollments/{id}/cancel - student cancela própria matrícula")
@@ -225,8 +213,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
                 .andExpect(status().isOk());
     }
 
-    // ─── POST /enrollments/{id}/lessons/{id}/watch ────────────────
-
     @Test
     @DisplayName("POST /enrollments/{id}/lessons/{id}/watch - student registra progresso")
     void shouldWatchLessonSuccessfully() throws Exception {
@@ -237,8 +223,6 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
                         .header("Authorization", "Bearer " + tokenDoStudent))
                 .andExpect(status().isOk());
     }
-
-    // ─── POST /enrollments/{id}/complete ─────────────────────────
 
     @Test
     @DisplayName("POST /enrollments/{id}/complete - student completa matrícula")
