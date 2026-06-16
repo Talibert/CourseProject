@@ -8,11 +8,13 @@ import com.example.api_docker.domain.enrollment.event.*;
 import com.example.api_docker.domain.enrollment.exception.EnrollmentCompletionNotAllowedException;
 import com.example.api_docker.domain.enrollment.exception.EnrollmentNotActiveException;
 import com.example.api_docker.domain.enrollment.exception.InvalidEnrollmentTransitionException;
+import com.example.api_docker.domain.payment.PaymentMethodType;
 import com.example.api_docker.domain.shared.DomainEvent;
 import com.example.api_docker.domain.user.UserId;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +54,15 @@ public class Enrollment {
         this.completedAt = completedAt;
     }
 
-    public static Enrollment create(UserId userId, CourseId courseId, CourseStructure courseStructure) {
-        Enrollment enrollment = new Enrollment(EnrollmentId.generate(), userId, courseId, courseStructure.totalLessons());
-        enrollment.domainEvents.add(new EnrollmentCreatedEvent(enrollment.id, userId, courseId));
+    public static Enrollment create(UserId studentId, CourseId courseId,
+                                    CourseStructure structure, BigDecimal amount,
+                                    PaymentMethodType paymentMethod, int installments) {
+        Enrollment enrollment = new Enrollment(
+                EnrollmentId.generate(), studentId, courseId, structure.totalLessons()
+        );
+        enrollment.addDomainEvent(new EnrollmentCreatedEvent(
+                enrollment.id, studentId, courseId, amount, paymentMethod, installments
+        ));
         return enrollment;
     }
 
@@ -122,6 +130,10 @@ public class Enrollment {
 
         if (percentage % 25 == 0 && percentage > 0)
             domainEvents.add(new ProgressMilestoneReachedEvent(id, percentage));
+    }
+
+    private void addDomainEvent(DomainEvent event) {
+        domainEvents.add(event);
     }
 
     public List<DomainEvent> pullDomainEvents() {
