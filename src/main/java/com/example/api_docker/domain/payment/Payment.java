@@ -60,12 +60,12 @@ public class Payment {
 
     public static Payment create(EnrollmentId enrollmentId, UserId studentId,
                                  BigDecimal amount, PaymentMethodType method, int installments) {
-        if (method == PaymentMethodType.PIX && installments > 1) {
+        if (method == PaymentMethodType.PIX && installments > 1)
             throw new DomainException("PIX não suporta parcelamento");
-        }
-        if (installments < 1) {
+
+        if (installments < 1)
             throw new DomainException("Número de parcelas deve ser maior que zero");
-        }
+
         Payment payment = new Payment(
                 PaymentId.generate(), enrollmentId, studentId,
                 amount, method, installments
