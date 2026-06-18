@@ -3,13 +3,14 @@ package com.example.api_docker.infra.kafka.enrollment;
 import com.example.api_docker.application.payment.command.CreatePaymentCommand;
 import com.example.api_docker.application.payment.usecase.CreatePaymentUseCase;
 import com.example.api_docker.domain.enrollment.event.EnrollmentCreatedEvent;
+import com.example.api_docker.infra.kafka.KafkaConsumer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class EnrollmentCreatedConsumer {
+public class EnrollmentCreatedConsumer extends KafkaConsumer {
 
     private final CreatePaymentUseCase createPaymentUseCase;
 

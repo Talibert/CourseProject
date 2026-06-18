@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "spring.kafka.bootstrap-servers") // Só cria o bean se o kafka estiver habilitado nas properties
+@ConditionalOnProperty(name = "spring.kafka.enabled", havingValue = "true", matchIfMissing = false)
 public class KafkaDomainEventPublisher implements DomainEventPublisher {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
