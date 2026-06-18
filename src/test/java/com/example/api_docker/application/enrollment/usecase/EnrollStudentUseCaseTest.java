@@ -11,6 +11,7 @@ import com.example.api_docker.domain.enrollment.Enrollment;
 import com.example.api_docker.domain.enrollment.EnrollmentRepository;
 import com.example.api_docker.domain.enrollment.event.EnrollmentCreatedEvent;
 import com.example.api_docker.domain.enrollment.exception.EnrollmentAlreadyExistsException;
+import com.example.api_docker.domain.payment.PaymentMethodType;
 import com.example.api_docker.domain.shared.DomainEventPublisher;
 import com.example.api_docker.domain.user.UserId;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,7 +98,7 @@ class EnrollStudentUseCaseTest extends UnitAbstractTests {
                 null
         );
 
-        command = new EnrollStudentCommand(studentId, courseId);
+        command = new EnrollStudentCommand(studentId, courseId, PaymentMethodType.PIX, 1);
     }
 
     @Test

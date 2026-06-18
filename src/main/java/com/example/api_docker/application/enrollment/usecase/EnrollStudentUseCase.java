@@ -30,11 +30,20 @@ public class EnrollStudentUseCase {
         if (course.getStatus() != CourseStatusType.PUBLISHED)
             throw new CourseNotPublishedException(command.courseId());
 
-        if (enrollmentRepository.existsActiveByStudentAndCourse(command.studentId().value(), command.courseId().value()))
+        if (enrollmentRepository.existsActiveByStudentAndCourse(
+                command.studentId().value(), command.courseId().value()))
             throw new EnrollmentAlreadyExistsException(command.studentId(), command.courseId());
 
         CourseStructure structure = course.toStructure();
-        Enrollment enrollment = Enrollment.create(command.studentId(), command.courseId(), structure);
+
+        Enrollment enrollment = Enrollment.create(
+                command.studentId(),
+                command.courseId(),
+                structure,
+                course.getPrice().amount(),    // ← amount vem do curso
+                command.paymentMethod(),        // ← vem do command
+                command.installments()          // ← vem do command
+        );
 
         enrollmentRepository.save(enrollment);
         enrollment.pullDomainEvents().forEach(eventPublisher::publish);

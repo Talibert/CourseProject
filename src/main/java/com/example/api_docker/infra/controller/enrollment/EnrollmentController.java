@@ -42,7 +42,12 @@ public class EnrollmentController {
             @AuthenticationPrincipal UserId studentId,
             @RequestBody @Valid EnrollStudentRequest request) {
         EnrollmentResult result = enrollStudentUseCase.execute(
-                new EnrollStudentCommand(studentId, new CourseId(request.courseId()))
+                new EnrollStudentCommand(
+                        studentId,
+                        new CourseId(request.courseId()),
+                        request.paymentMethod(),
+                        request.installments()
+                )
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

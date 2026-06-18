@@ -5,6 +5,7 @@ import com.example.api_docker.application.enrollment.result.EnrollmentResult;
 import com.example.api_docker.application.enrollment.usecase.*;
 import com.example.api_docker.domain.enrollment.CancellationReason;
 import com.example.api_docker.domain.enrollment.SuspensionReason;
+import com.example.api_docker.domain.payment.PaymentMethodType;
 import com.example.api_docker.infra.controller.enrollment.request.CancelEnrollmentRequest;
 import com.example.api_docker.infra.controller.enrollment.request.EnrollStudentRequest;
 import com.example.api_docker.infra.controller.enrollment.request.SuspendEnrollmentRequest;
@@ -87,7 +88,7 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
     @Test
     @DisplayName("POST /enrollments - student matricula com sucesso")
     void shouldEnrollStudentSuccessfully() throws Exception {
-        EnrollStudentRequest request = new EnrollStudentRequest(courseId);
+        EnrollStudentRequest request = new EnrollStudentRequest(courseId, PaymentMethodType.PIX, 1);
 
         when(enrollStudentUseCase.execute(any())).thenReturn(enrollmentResult);
 
@@ -103,7 +104,7 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
     @Test
     @DisplayName("POST /enrollments - sem token retorna 401")
     void shouldReturn401WhenEnrollingWithoutToken() throws Exception {
-        EnrollStudentRequest request = new EnrollStudentRequest(courseId);
+        EnrollStudentRequest request = new EnrollStudentRequest(courseId, PaymentMethodType.CREDIT_CARD, 3);
 
         mockMvc.perform(post("/enrollments")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +115,7 @@ class EnrollmentControllerTest extends ControllerAbstractTests {
     @Test
     @DisplayName("POST /enrollments - admin tentando matricular retorna 403")
     void shouldReturn403WhenAdminTriesToEnroll() throws Exception {
-        EnrollStudentRequest request = new EnrollStudentRequest(courseId);
+        EnrollStudentRequest request = new EnrollStudentRequest(courseId, PaymentMethodType.CREDIT_CARD, 12);
 
         mockMvc.perform(post("/enrollments")
                         .contentType(MediaType.APPLICATION_JSON)
