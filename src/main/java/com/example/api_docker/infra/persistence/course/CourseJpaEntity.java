@@ -49,7 +49,7 @@ public class CourseJpaEntity {
     private LocalDateTime publishedAt;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("order ASC")
+    @OrderBy("module_order ASC")
     private List<ModuleJpaEntity> modules = new ArrayList<>();
 
     @OneToOne(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -24,7 +24,7 @@ public class LessonJpaEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "order", nullable = false)
+    @Column(name = "lesson_order", nullable = false)
     private int order;
 
     @Column(name = "duration_minutes", nullable = false)
