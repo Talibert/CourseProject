@@ -21,6 +21,10 @@ public class Lesson {
         this.durationMinutes = durationMinutes;
     }
 
+    public static Lesson create(String title, int order, int durationMinutes) {
+        return new Lesson(title, order, durationMinutes);
+    }
+
     public static Lesson restore(LessonId id, String title, int order, int durationMinutes) {
         return new Lesson(id, title, order, durationMinutes);
     }
