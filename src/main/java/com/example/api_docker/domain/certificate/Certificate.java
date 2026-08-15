@@ -65,7 +65,7 @@ public class Certificate {
                                       UserId userId, CourseId courseId,
                                       String verificationCode, LocalDateTime issuedAt) {
         return new Certificate(id, enrollmentId, userId,
-                courseId, verificationCode, LocalDateTime.now());
+                courseId, verificationCode, issuedAt);
     }
 
     public List<DomainEvent> pullDomainEvents() {
