@@ -25,11 +25,11 @@ public class ModuleJpaEntity {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "order", nullable = false)
+    @Column(name = "module_order", nullable = false)
     private int order;
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("order ASC")
+    @OrderBy("lesson_order ASC")
     private List<LessonJpaEntity> lessons = new ArrayList<>();
 
     protected ModuleJpaEntity() {}

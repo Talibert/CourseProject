@@ -20,7 +20,7 @@ import java.util.Map;
  * Vamos usar essa classe para mapear os eventos. Isso evita que o domínio conheça o kafka
  */
 @Component
-@ConditionalOnProperty(name = "spring.kafka.bootstrap-servers")
+@ConditionalOnProperty(name = "spring.kafka.enabled", havingValue = "true", matchIfMissing = false)
 public class KafkaTopicRegistry {
 
     private static final Map<Class<? extends DomainEvent>, String> TOPICS = Map.ofEntries(

@@ -3,13 +3,14 @@ package com.example.api_docker.infra.kafka.payment;
 import com.example.api_docker.application.payment.command.CancelPaymentCommand;
 import com.example.api_docker.application.payment.usecase.CancelPaymentUseCase;
 import com.example.api_docker.domain.payment.event.PaymentCancelledEvent;
+import com.example.api_docker.infra.kafka.KafkaConsumer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PaymentCancelledConsumer {
+public class PaymentCancelledConsumer extends KafkaConsumer {
 
     private final CancelPaymentUseCase cancelPaymentUseCase;
 
