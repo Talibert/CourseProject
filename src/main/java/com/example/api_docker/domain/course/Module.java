@@ -25,6 +25,10 @@ public class Module {
         this.lessons = new ArrayList<>();
     }
 
+    public static Module create(String title, int order) {
+        return new Module(title, order);
+    }
+
     public static Module restore(ModuleId id, String title, int order, List<Lesson> lessons) {
         Module module = new Module(id, title, order);
         module.lessons.addAll(lessons);

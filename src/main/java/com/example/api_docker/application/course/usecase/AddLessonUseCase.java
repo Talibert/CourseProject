@@ -25,7 +25,7 @@ public class AddLessonUseCase {
                 .findFirst()
                 .orElseThrow(() -> new ModuleNotFoundException(command.moduleId()));
 
-        module.addLesson(new Lesson(
+        module.addLesson(Lesson.create(
                 command.title(),
                 command.order(),
                 command.durationMinutes()

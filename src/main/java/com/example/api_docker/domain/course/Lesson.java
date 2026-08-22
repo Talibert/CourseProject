@@ -11,24 +11,21 @@ public class Lesson {
     private final int order;
     private final int durationMinutes;
 
-    public Lesson(String title, int order, int durationMinutes) {
+    private Lesson(LessonId id, String title, int order, int durationMinutes) {
         if (durationMinutes <= 0)
             throw new DomainException("Duração da aula deve ser maior que zero");
 
-        this.id = LessonId.generate();
-        this.title = title;
-        this.order = order;
-        this.durationMinutes = durationMinutes;
-    }
-
-    public static Lesson restore(LessonId id, String title, int order, int durationMinutes) {
-        return new Lesson(id, title, order, durationMinutes);
-    }
-
-    private Lesson(LessonId id, String title, int order, int durationMinutes) {
         this.id = id;
         this.title = title;
         this.order = order;
         this.durationMinutes = durationMinutes;
+    }
+
+    public static Lesson create(String title, int order, int durationMinutes) {
+        return new Lesson(LessonId.generate(), title, order, durationMinutes);
+    }
+
+    public static Lesson restore(LessonId id, String title, int order, int durationMinutes) {
+        return new Lesson(id, title, order, durationMinutes);
     }
 }

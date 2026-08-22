@@ -62,7 +62,7 @@ class EnrollStudentUseCaseTest extends UnitAbstractTests {
                 new ModuleId(UUID.randomUUID()),
                 "Fundamentos",
                 1,
-                List.of(new Lesson("Introdução", 1, 30))
+                List.of(Lesson.create("Introdução", 1, 30))
         );
 
         Assessment assessment = new Assessment(
